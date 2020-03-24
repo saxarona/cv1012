@@ -1,0 +1,246 @@
+\documentclass[12pt, letterpaper, oneside]{article}
+%\usepackage{geometry}
+\usepackage[spanish, mexico]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage[inner=1.5cm,outer=1.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\pagestyle{empty}
+\usepackage{graphicx}
+\usepackage{fancyhdr, lastpage, bbding, pmboxdraw}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{multicol}
+\definecolor{darkblue}{rgb}{0,0,.6}
+\definecolor{darkred}{rgb}{.7,0,0}
+\definecolor{darkgreen}{rgb}{0,.6,0}
+\definecolor{red}{rgb}{.98,0,0}
+\usepackage[colorlinks,pagebackref,pdfusetitle,urlcolor=darkblue,citecolor=darkblue,linkcolor=darkred,bookmarksnumbered,plainpages=false]{hyperref}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\newcommand{\thecourse}{Aplicación de Métodos Numéricos al Ambiente Construido (CV1012--6)}
+\newcommand{\thesemester}{Marzo--Junio 2020}
+\newcommand{\theinstructor}{Xavier Sánchez Díaz}
+\newcommand{\themail}{sax@tec.mx}
+\newcommand{\thetime}{MaVi 17:00--19:00 hrs}
+\newcommand{\theplace}{Online}
+
+\newcommand{\topic}{{\color{darkgreen}{\Rectangle}}}
+\newcommand{\subtopic}{{\enskip \color{darkblue}{\Rectangle}}}
+
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{ \fancyplain{}{\thecourse} }
+%\chead{ \fancyplain{}{} }
+\rhead{ \fancyplain{}{\thesemester} }
+%\rfoot{\fancyplain{}{page \thepage\ of \pageref{LastPage}}}
+\fancyfoot[RO] {Página \thepage\ de \pageref{LastPage}}
+\thispagestyle{plain}
+
+%%%%%%%%%%%% LISTING %%%
+\usepackage{listings}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+% \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\usepackage{verbatim} % used to display code
+\usepackage{fancyvrb}
+\usepackage{acronym}
+\usepackage{amsthm}
+\VerbatimFootnotes % Required, otherwise verbatim does not work in footnotes!
+
+
+
+\definecolor{OliveGreen}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{CadetBlue}{cmyk}{0.62,0.57,0.23,0}
+\definecolor{lightlightgray}{gray}{0.93}
+
+\setlength{\headheight}{15pt}
+
+\lstset{
+  %language=bash,                          % Code langugage
+  basicstyle=\ttfamily,                   % Code font, Examples: \footnotesize, \ttfamily
+  keywordstyle=\color{OliveGreen},        % Keywords font ('*' = uppercase)
+  commentstyle=\color{gray},              % Comments font
+  numbers=left,                           % Line nums position
+  numberstyle=\tiny,                      % Line-numbers fonts
+  stepnumber=1,                           % Step between two line-numbers
+  numbersep=5pt,                          % How far are line-numbers from code
+  backgroundcolor=\color{lightlightgray}, % Choose background color
+  frame=none,                             % A frame around the code
+  tabsize=2,                              % Default tab size
+  captionpos=t,                           % Caption-position = bottom
+  breaklines=true,                        % Automatic line breaking?
+  breakatwhitespace=false,                % Automatic breaks only at whitespace?
+  showspaces=false,                       % Dont make spaces visible
+  showtabs=false,                         % Dont make tabls visible
+  columns=flexible,                       % Column format
+  morekeywords={__global__, __device__},  % CUDA specific keywords
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+  \begin{center}
+  {\Large \textsc{\thecourse}}
+  \end{center}
+  \begin{center}
+  \thesemester
+  \end{center}
+
+  \begin{center}
+  \rule{6in}{0.4pt}
+  \begin{minipage}[t]{.75\textwidth}
+  \begin{tabular}{llcccll}
+  \textbf{Instructor:} & \theinstructor & & &  & \textbf{Hora:} & \thetime \\
+  \textbf{Email:} &  \href{mailto:sax@tec.mx}{\themail} & & & & \textbf{Lugar:} & \theplace
+  \end{tabular}
+  \end{minipage}
+  \rule{6in}{0.4pt}
+  \end{center}
+  \vspace{.5cm}
+  \setlength{\unitlength}{1in}
+  \renewcommand{\arraystretch}{2}
+
+  \noindent\textbf{Página del curso:}
+  
+  \begin{enumerate}
+  \item \url{https://saxarona.gitlab.io/teaching/cv1012/}
+  \end{enumerate}
+
+  \vskip.15in
+
+  \noindent\textbf{Horario de oficina (si todo llegase a volver a la normalidad):}
+  Usualmente puedes encontrarme los días lunes, miércoles y jueves de 10:00 a 12:00 hrs en la oficina (CT-524, CETEC Sur).
+  Sin embargo, es más fácil que envíes un correo para poder agendar una cita en dado caso que no puedas asistir en este horario.
+
+  \vskip.15in
+
+  \noindent\textbf{Material recomendado:} % \footnotemark
+  Ésta es una lista de libros y recursos en línea que pueden serte de utilidad durante el curso.
+
+  \begin{itemize}
+    \item Jeffrey R. Chasnov, \textit{Lecture Notes on Numerical Methods}.\\
+    Disponible de manera gratuita en: \url{https://www.math.ust.hk/~machas/}
+    \item Leon Q. Brin, \textit{Tea Time Numerical Analysis}, 2nd ed. New Haven, CT : Southern Connecticut State University \\
+    Disponible de manera gratuita en \url{https://lqbrin.github.io/tea-time-numerical/}
+    \item \textit{Numerical Methods} on Wikibooks\\
+    Disponible de manera gratuita en \url{https://en.wikibooks.org/wiki/Numerical\_Methods}
+    \item Steven C. Chapra \& Raymond P. Canale. \textit{Numerical Methods for Engineers}. 7th ed. McGraw-Hill. 2015.
+  \end{itemize}
+
+  \vskip.15in
+
+  \noindent\textbf{Objetivo del curso:}
+  Éste es un curso hecho para que te familiarices con los métodos numéricos y para modelar fenómenos físicos relacionados a ambientes construidos, usando conceptos de cálculo diferencial e integral.
+
+  \vskip.15in
+  \noindent\textbf{Requisitos:}
+  Haber cursado y aprobado Razonamiento basado en Matemáticas (CV1007) y Resolución de Problemas con Lógica Computacional (CV1008).
+
+  % \vspace*{.15in}
+
+  \pagebreak
+
+  \noindent \textbf{Índice analítico del curso:}
+  El curso está dividido en tres módulos---Lógica y Conjuntos, Relaciones y Funciones, y Teoría de Grafos.
+
+  \begin{center} 
+  \begin{minipage}{5in}
+  \begin{flushleft}
+    {\large Primer período} \\[2ex]
+    \topic ~Introducción a Métodos Numéricos \\
+    \subtopic ~Numérico vs Analítico \\
+    \subtopic ~Números Enteros vs Flotantes \\
+    \subtopic ~Error y Eficiencia \\
+    \topic ~Raíces: \textit{bracketing} \\
+    \subtopic ~Bisección \\
+    \subtopic ~Falsa Posición \\
+    \topic ~Raíces: métodos abiertos \\
+    \subtopic ~Punto fijo \\
+    \subtopic ~Newton-Raphson \\
+    \subtopic ~Secante \\
+    \topic ~Raíces de Polinomios \\
+    \subtopic ~Bairstow \\[2.5ex]
+    {\large Segundo período} \\[2ex]
+    \topic ~Cálculo numérico \\
+    \subtopic ~Derivada numérica \\
+    \subtopic ~Integración numérica \\
+    \topic ~Matrices \\
+    \subtopic ~Álgebra Matricial \\
+    \subtopic ~Descomposición LU \\
+    \topic ~Ecuaciones Diferenciales \\
+    \subtopic ~Ecuaciones diferenciales ordinarias
+  \end{flushleft}
+  \end{minipage}
+  \end{center}
+
+  \vspace*{.15in}
+  \noindent\textbf{Política de evaluación:}
+  Evidencias (50\%), Exámenes (30\%), Tareas (20\%)
+  % La suma será posteriormente multiplicada por 95\% debido a que el 5\% restante corresponde a la Semana i.
+  
+  \vspace*{.15in}
+  \textbf{Recuerda que lo que se evalúa es tu desempeño, no tu persona}.
+  En los exámenes, evaluamos lo que escribes, no lo que piensas ni lo que sabes.
+  Las evaluaciones---a pesar de sus limitaciones---son un elemento básico para que, al final de tu carrera, la institución pueda certificar que asististe a los cursos y que posees los conocimientos, habilidades, actitudes y valores de un profesionista.
+
+  % \vskip.15in
+  \pagebreak
+
+  \noindent\textbf{Fechas importantes:}
+  Dependiendo del departamento, las fechas de los exámenes podrían cambiar.
+  Si ése es el caso, serás notificado con tiempo.
+  Mientras tanto, éstas son las fechas tentativas:
+
+  \begin{center} \begin{minipage}{3.8in}
+  \begin{flushleft}
+  Situación Problema 1 \dotfill ~TBD \\
+  Examen 1 \dotfill ~TBD \\
+  Semana Santa \dotfill ~4--12 de abril\\
+  Examen 2 \dotfill ~TBD \\
+  Situación Problema 2 \dotfill ~TBD \\
+  \end{flushleft}
+  \end{minipage}
+  \end{center}
+
+  \vskip.15in
+
+  \noindent\textbf{Políticas del curso:}  
+  \begin{enumerate}
+  \item Se sugiere que al inicio del semestre navegues por la página del curso y el curso en Canvas. Revisa los contenidos, su forma de evaluación y las reglas. \textbf{El desconocimiento de una regla que fue dada a conocer no justifica su omisión}.
+  \item Verifica que tu correo del Tec esté funcionando, ya que será utilizado como medio oficial de comunicación. \textbf{El hecho de que no tengas acceso a tu correo no es justificación para no llevar a cabo una entrega}.
+  \item Las tareas serán entregadas por el medio especificado y antes de la fecha límite. En caso de que no puedas entregar una tarea a tiempo, es probable que puedas entregarla más tarde (siempre y cuando sea dentro del mismo parcial) pero con una penalización.
+  \item La calificación máxima en la entrega tardía de una tarea es sobre el 50\% del total de puntos asignados.
+  \item Las soluciones a las tareas deberán ser entregadas \textbf{en limpio y en formato digital}. El formato usual de entrega es siempre \textit{typeset} (\texttt{PDF}) subido a la plataforma. Evita subir fotos, capturas de pantalla o escaneos de trabajos a mano.
+  \item Para tareas en las que la solución sea de más de un archivo, sube una carpeta comprimida en formato ZIP.
+  % \item Las soluciones a las tareas con un puntaje casi perfecto podrían ser consideradas como soluciones oficiales de dicha tarea y subidas a la plataforma. En caso de ser así, el estudiante ganará puntos extras.
+  \item Si hay algo que crees necesario que deba tomar en cuenta al momento de calificar tu tarea, escríbelo en los comentarios de la plataforma, o bien crea un archivo de texto con el nombre \texttt{README}. Escribe ahí tu mensaje e inclúyelo en el archivo comprimido. No envíes estos mensajes por correo.
+  \item Puedes discutir los problemas de la tarea con otros estudiantes, pero recuerda que debes subir un archivo escrito por ti (y los miembros de tu equipo, según sea el caso). En trabajos colaborativos, un solo entregable basta, pero asegúrate de incluir a todos los integrantes.
+  \item Las aclaraciones respecto a calificaciones de actividades y exámenes sólo podrán hacerse dentro de las dos semanas siguientes a la publicación de las calificaciones respectivas.
+  \item Los comentarios o aclaraciones que haga el profesor durante la aplicación de un examen serán usados por el alumno bajo su propia responsabilidad, si considera que le son de utilidad, y en ningún momento podrán usarse como argumento para discutir la calificación de algún problema del examen.
+  \item En caso de que un alumno no pueda presentar un examen por causas de fuerza mayor, deberá conseguir un visto bueno de la dirección de carrera, quien mandará un correo u otro documento equivalente al profesor. El profesor no revisará directamente comprobantes médicos o documentos de esa índole.
+  \end{enumerate}
+
+  \vskip.15in
+  % \pagebreak
+  
+  \noindent\textbf{Políticas de clase:}  
+  \begin{itemize}
+  \item La entrada al salón de clases es a la hora especificada. Una vez iniciada la clase, se procederá a tomar asistencia. Después de 15 minutos, podrás ingresar al salón con falta. \textbf{No faltes a clase si no es absolutamente necesario}.
+  \item Las actividades desarrolladas durante una sesión a la que no asististe no se repondrán.
+  \item Los exámenes podrán reponerse con el visto bueno del director de carrera, quien deberá enviar una notificación al profesor (un correo, por ejemplo).
+  \item Es tu responsabilidad ponerte al tanto de lo acontecido en la clase durante tu ausencia.
+  \item Sé cortés al usar dispositivos móviles. Asegúrate de que tu celular está apagado o en silencio. Si recibes una llamada o mensaje importante durante una sesión, podrás atenderlo fuera del salón de clases.\footnotemark
+  \item Si tienes que usar tu computadora, utilízala sin sonido o con auriculares.\footnotemark[\value{footnote}]
+  \end{itemize}
+
+  \footnotetext{El problema principal no es que tú no te concentres, sino que podrías perjudicar al ambiente en que se desenvuelven tus demás compañeros. Sé considerado.}
+
+  \vskip.15in
+  \noindent\textbf{Integridad académica:}
+  ``Se entiende por \textit{integridad académica} el actuar honesto, comprometido, confiable, responsable, justo, respetuoso con el aprendizaje, la investigación y la difusión de la cultura''. En este curso, pedimos que los alumnos y el profesor se comporten siguiendo estos principios.
+  \\[2ex]
+  \noindent{\color{darkred}{\Large \HandRight}} ~\textbf{La copia en exámenes o tareas va en forma flagrante contra dicha \textit{integridad académica}, y será penalizada}.
+  Una cosa es \textit{hacer la tarea juntos} y otra muy distinta es compartir resultados y documentos sin hacer referencia formal de ello.\\[2ex]
+  \noindent{\color{darkred}{\Large \HandRight}} ~El nuevo reglamento académico establece que el profesor asignará una \textbf{calificación reprobatoria} a la actividad, examen, período parcial o final. \textbf{La calificación reprobatoria asignada por el profesor será inapelable}, y a esta sanción se sumarán aquellas otras que el Comité de Integridad Académica del Campus determine pertinentes.
+
+  %%%%%% END 
+\end{document} 
