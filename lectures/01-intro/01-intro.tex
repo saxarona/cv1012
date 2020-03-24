@@ -1,0 +1,281 @@
+\documentclass[spanish, c]{beamer}
+
+\usepackage[utf8]{inputenc}
+%\usepackage[spanish, mexico]{babel}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{ragged2e}
+\usepackage{mathrsfs}
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage[scaled]{beramono}
+\usepackage[T1]{fontenc}
+\usepackage{matlab-prettifier}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\renewcommand{\indent}{\hspace*{2em}}
+
+% \usepackage{tikz}
+
+% \usetikzlibrary{fit, shapes, arrows}
+
+% \usepackage{courier}
+% \usepackage{subfigure}
+% \usepackage{enumerate}
+% \usepackage{algorithmic}
+% \usepackage{algorithm}
+
+% \usepackage{listings}
+% \usepackage{lstlinebgrd}
+
+\usetheme{Boadilla}
+\usefonttheme[onlymath]{serif}
+
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-editor]!#1!}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+\lstset
+{
+    language = Matlab,
+    style = Matlab-editor,
+    basicstyle = \mlttfamily\scriptsize,
+    escapechar = `,
+    numbers = left,
+    frame = tb,
+}
+
+\lstdefinestyle{output}
+{
+    language = {},
+    basicstyle = \mlttfamily\scriptsize,
+    escapechar = `,
+    numbers = none,
+    showtabs = false,
+   	showstringspaces = false,
+}
+
+% Sets the templates
+\definecolor{navyblue}{RGB}{0, 0, 128}
+\definecolor{crimson}{RGB}{128, 16, 0}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true]
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{theorems}[numbered]
+
+\setbeamercolor{title}{fg=navyblue, bg=white}
+\setbeamercolor{frametitle}{fg=navyblue, bg=white}
+\setbeamercolor{structure}{fg=navyblue}
+\setbeamercolor{button}{fg=white,bg=navyblue}
+
+\setbeamercovered{transparent}
+
+\title{Datos y Matrices}
+\subtitle{Aplicación de Métodos Numéricos al Ambiente Construido \\ (CV1012)}
+\author{
+    \texorpdfstring{
+        \begin{center}
+            M.C. Xavier Sánchez Díaz \\
+            \href{mailto:sax@tec.mx}{\texttt{sax@tec.mx}}
+        \end{center}
+    }
+    {M.C. Xavier Sánchez Díaz}
+}
+
+\institute[Tecnológico de Monterrey]{\includegraphics[scale=0.5]{../img/logo}}
+\date{}
+
+\begin{document}
+
+\setlength{\rightskip}{0pt}
+
+\begin{frame}[plain]
+    \titlepage        
+\end{frame}
+
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+\section{Introducción a métodos numéricos}
+
+\subsection{Continuo vs. Discreto}
+
+\begin{frame}{Continuo vs. Discreto}{Introducción a métodos numéricos}
+
+    \begin{center}
+        \LARGE
+        ¿Por qué suenan tan distinto los violines de los pianos si ambos instrumentos son de cuerda?
+    \end{center} \pause
+
+    \bigskip
+
+    \begin{center}
+        \textit{Story time: continuo vs. discreto}
+    \end{center}
+
+\end{frame}
+
+\subsection{¿Qué son los métodos numéricos?}
+
+\begin{frame}{¿Qué son los métodos numéricos?}{Introducción a métodos numéricos}
+    \begin{block}{Definición}
+        Los métodos numéricos son \alert{técnicas} mediante las cuales es posible \textbf{formular problemas matemáticos} de tal forma que puedan resolverse utilizando \textbf{operaciones aritméticas}.
+    \end{block} \pause
+
+    \bigskip
+
+    ¿Qué problemas se te vienen a la mente que puedan resolverse con métodos numéricos?
+\end{frame}
+
+\begin{frame}{Métodos numéricos: aplicación}{Introducción a métodos numéricos}
+    
+    Podemos usarlos para muchos problemas en ingeniería:
+
+    \bigskip
+    
+    \begin{itemize}[<+->]
+        \item \textbf{Encontrar} raíces de una ecuación
+        \item \textbf{Resolver} sistemas de ecuaciones
+        \item \textbf{Encontrar} el valor óptimo en una función
+        \item \textbf{Aproximar} funciones
+        \item \textbf{Interpolar} valores intermedios usando referencias
+        \item \textbf{Integrar}  y \textbf{derivar} funciones
+    \end{itemize}
+\end{frame}
+
+\subsection{Representación digital de los números}
+
+\begin{frame}{Representación de los números}{Introducción a métodos numéricos}
+
+    Si descomponemos un número en cifras, podemos obtener el valor posicional de cada una para calcular el valor de la misma\dots \pause
+
+    El número $2357$ es:
+
+    \begin{itemize}
+        \item $2000 = 2 \times 10^{\alert<7>{3}}$ más\dots \pause
+        \item $300 = 3 \times 10^{\alert<7>{2}}$ más\dots \pause
+        \item $50 = 5 \times 10^{\alert<7>{1}}$ más\dots \pause
+        \item $7 = 7 \times 10^{\alert<7>{0}}$ \pause
+    \end{itemize}
+
+    \bigskip
+
+    ¿Qué pasa con los exponentes en nuestro sistema decimal? \pause
+
+\end{frame}
+
+\begin{frame}{Representación de los números}{Introducción a métodos numéricos}
+
+    \begin{center}
+        \LARGE
+        ¿Qué pasa con los números decimales entonces?
+    \end{center}\pause
+    
+    \bigskip
+    
+    \begin{center}
+        \textit{\href{https://en.wikipedia.org/wiki/Floating-point\_arithmetic}{Wiki: IEEE floating points}}
+    \end{center}
+    
+\end{frame}
+
+\begin{frame}{Tipos de datos}{Introducción a los métodos numéricos}
+    
+   Existen distintos \alert{tipos de datos} con los que podemos trabajar en una computadora: \pause
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \item Números enteros (\textit{integer numbers})
+        \item Números decimales (\textit{floating point numbers})
+        \item Cadenas de caracteres alfanuméricos (\textit{strings})
+    \end{itemize} \pause
+
+    \bigskip
+    
+    En este curso sólo nos preocuparemos por números. \pause
+
+    Cuando \textbf{operamos} con estos datos, generamos nueva información que podríamos necesitar en el futuro.
+
+\end{frame}
+
+\begin{frame}{Datos como resultados}{Introducción a los métodos numéricos}
+    Antes de usar la computadora o la calculadora para hacer cálculos, solíamos hacer las operaciones a mano.
+
+    \bigskip
+    
+    Por ejemplo, si queremos calcular $1270 \times 35$, una manera de hacerlo podría ser\dots
+
+\end{frame}
+
+\begin{frame}{Datos como resultados}{Introducción a los métodos numéricos}
+    \begin{align*}
+        1270 \times 35 & = \\ \pause
+        & = (1200 + 70) \times (7)(5) \\ \pause
+        & = (\alert<4>{12})(\alert<5,6>{7})(\alert<4>{5})(\alert<7>{100}) + (\alert<8>{7})(\alert<8>{7})(\alert<10>{5})(\alert<9>{10}) \pause
+    \end{align*}
+    \vspace{-2ex}
+    \begin{align*}
+        \alert<4>{12} \times \alert<4>{5} = \alert<5,6>{60} \\
+        \alert<5,6>{60} \times \alert<5,6>{7} = \alert<6>{6} \times \alert<6>{7} \times \alert<6>{10} = \alert<7>{420} \\
+        \alert<7>{420} \times \alert<7>{100} = \alert<11>{42000} \\[1.5ex]
+        \alert<8>{7} \times \alert<8>{7} = \alert<9>{49} \\
+        \alert<9>{49} \times \alert<9>{10} = \alert<10>{490} \\
+        \alert<10>{490} \times \alert<10>{5} = \alert<10>{490} \times \alert<10>{10 / 2} = \alert<11>{2450}\\[1.5ex]
+        \alert<11>{42000} + \alert<11>{2450} = 44450 \quad \square
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Datos y errores}{Introducción a los métodos numéricos}
+    ¿Qué habría pasado si hubiera muchos puntos decimales de por medio? \pause
+
+    \bigskip
+
+    ¿Cuál es la representación decimal de $\dfrac{1}{7}$? ¿Y de $\dfrac{2}{7}$? \pause
+
+    \bigskip
+
+    \begin{center}
+        \LARGE
+        \textit{Story time: The Wolf}
+    \end{center}    
+\end{frame}
+
+\begin{frame}{Datos y errores}{Introducción a los métodos numéricos}
+    {\Huge \texttt{NotImplementedError}}
+\end{frame}
+
+\begin{frame}{Tipos de Errores}{Introducción a los métodos numéricos}
+    {\Huge \texttt{NotImplementedError}}
+\end{frame}
+
+% What is control flow
+% why is it important
+% does it exist in math?
+% how to represent it
+% how to represent it in matlab
+% practical cases
+
+% \section*{Referencias}
+
+% \begin{frame}[t]{Referencias}
+    % \nocite{bibID01}
+    % \nocite{bibID02}
+
+    % \bibliographystyle{IEEE}
+    % \bibliography{biblio}
+% \end{frame}
+
+\end{document}
