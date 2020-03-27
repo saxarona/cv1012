@@ -1,0 +1,157 @@
+\documentclass[spanish, 10pt]{article}
+
+\usepackage[table, xcdraw]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, mexico]{babel}
+\usepackage{helvet}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[margin = 3 cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{matlab-prettifier}
+\usepackage{multicol}
+
+\usetikzlibrary{arrows, shapes, trees, calc, decorations.pathreplacing, shapes.misc, positioning, automata}
+
+\setlength\parindent{0pt}
+
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand{\responserule}{{\large\rule{14 cm}{0.3mm}}}
+\newcommand{\shortresponserule}{{\large\rule{5 cm}{0.3mm}}}
+\newcommand{\veryshortresponserule}{{\large\rule{3 cm}{0.3mm}}}
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-pyglike]!#1!}
+
+
+% Specifications for listing package
+% \lstset{	
+%     basicstyle = \scriptsize\ttfamily,
+%     keywordstyle = \color{blue}\ttfamily,
+%     stringstyle = \color{red}\ttfamily,
+%    	commentstyle = \color{gray}\ttfamily,
+%    	tabsize = 3,
+%    	breaklines = true,
+%    	stepnumber = 1,
+%    	showtabs = false,
+%    	showstringspaces = false,
+%    	frame = none
+% }
+
+% Commands for true/false questions
+% ----------------------------------------------------------------
+\newcommand{\question}[1]{%
+	\noindent
+	\begin{minipage}[t]{0.15\linewidth}
+	\centering		
+		\textbf{[\hspace{1 cm}]}
+	\end{minipage}%
+	\begin{minipage}[t]{0.85\linewidth}
+		#1
+	\end{minipage}
+	\smallskip
+}
+% ----------------------------------------------------------------
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\begin{center}
+	{\Large \textbf{Aplicación de Métodos Numéricos al Ambiente Construido (CV1012)}}
+	
+	\bigskip
+	{\large \textbf{Actividad 01 -- Funciones y Control de Flujo}}
+\end{center}
+
+\bigskip
+{\large \textbf{Nombre}: \rule{13.7 cm}{0.4mm}}
+
+% \bigskip
+% {\large \textbf{Matrícula}: \rule{5 cm}{0.4mm}}
+
+% \bigskip
+% {\large \textbf{Name}: \rule{14 cm}{0.4mm}}
+
+\bigskip
+{\large \textbf{Matrícula}: \rule{5 cm}{0.4mm}} \hfill {\large \textbf{Fecha}: \today}
+
+\bigskip
+
+\section{Condiciones y Ciclos I}
+
+Resuelve las operaciones y contesta correctamente. Puedes usar MATLAB/Octave para ayudarte.
+
+\begin{enumerate}
+    \itemsep2.5ex
+    \item Describe el conjunto $A$ por extensión si $A = \{ n : n \in \mathbb{N}, n \leq 10 \}$: \\[3ex] \responserule
+    \item Sea $x = \langle 2, 5, 45, 17, 10, 22, 121 \rangle$, y 
+    $$f(x_i) =
+        \begin{cases}
+            2x_i, & \text{si } x_i \text{ es igual a } 2 \\
+            3x_i, & \text{si } x_i < 11 \text{ y } x_i \mod 5 = 0 \\
+            x_i^2, & \text{si } 11 < x_i < 20 \\
+            x_i, & \text{si } 20 \leq x_i \leq 100 \text{ o bien si } x_i \geq 200 \\
+            0, & \text{de lo contrario}
+        \end{cases}$$
+        \bigskip
+    \begin{enumerate}
+        \item $f(x_1) =$ \quad \; \shortresponserule
+        \item $f(x_2) =$ \quad \; \shortresponserule
+        \item $f(x_3) =$ \quad \; \shortresponserule
+        \item $f(x_4) =$ \quad \; \shortresponserule
+        \item $f(x_5) =$ \quad \; \shortresponserule
+        \item $f(x_6) =$ \quad \; \shortresponserule
+        \item $f(x_7) =$ \quad \; \shortresponserule
+        \item $f(x_i=1) =$ \shortresponserule
+    \end{enumerate}
+    \item {\Large $\sum \limits_{i=1}^{n=100} i =$} \hfill \shortresponserule
+    \item {\Large $\sum \limits_{i=1}^{n=10} 2i + 3 =$} \hfill \shortresponserule
+    \item {\Large $\prod \limits_{i=1}^{n=6} i =$} \hfill \shortresponserule
+\end{enumerate}
+
+\section{Condiciones y Ciclos II}
+
+Antes de implementar las instrucciones anteriores en MATLAB/Octave, hay que hacernos algunas preguntas:
+
+\begin{itemize}
+	\item Para el inciso 2 de la sección anterior:
+	\begin{enumerate}
+        \item ¿Cuántos parámetros tiene $f(x_i)$? \hfill \shortresponserule
+        \item ¿Cuántos posibles resultados distintos tiene? \hfill \shortresponserule
+        \item ¿Qué pasa si evaluamos $f(x_i=11)$ \hfill \shortresponserule
+        \item ¿Qué pasa si evaluamos $f(x_i=255)$ \hfill \shortresponserule
+    \end{enumerate}
+	\item Para el inciso 3 de la sección anterior:
+	\begin{enumerate}
+        \item ¿Cuántos números estamos sumando? \hfill \shortresponserule
+        \item ¿Habrá alguna manera más rápida de hacer este procedimiento? \hfill \veryshortresponserule
+    \end{enumerate}
+	\item Para el inciso 4 de la sección anterior:
+	\begin{enumerate}
+        \item ¿Cuántas veces debo repetir el procedimiento? \hfill \shortresponserule
+        \item ¿Habrá alguna manera más rápida de hacerlo? \hfill \shortresponserule
+    \end{enumerate}
+    \item Para el inciso 5 de la sección anterior:
+	\begin{enumerate}
+        \item ¿Cuántos valores distintos toma la $i$? \hfill \shortresponserule
+        \item ¿Habrá alguna manera más rápida de hacerlo? \hfill \shortresponserule
+        \item ¿Puedo hacer el procedimiento si en lugar de darme valores para $i$ conozco una condición para detenerme?
+        \hfill \shortresponserule
+    \end{enumerate}
+\end{itemize}
+
+\section{Comandos}
+
+Escribe los símbolos y comandos de MATLAB/Octave que consideres útiles para recordar lo visto en la sesión, y una descripción breve de cada uno de ellos:
+
+\vfill
+
+\textbf{Apegándome al Código de Ética de los Estudiantes del Tecnológico de Monterrey, me comprometo a que mi actuación en esta actividad esté regida por la honestidad académica.}
+
+\end{document}

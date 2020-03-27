@@ -1,0 +1,154 @@
+\documentclass[]{book}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage[spanish, mexico]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{helvet}
+\usepackage[framed]{matlab-prettifier}
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-pyglike]!#1!}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{sol}{Solution}
+\newtheorem{prop}{Proposition}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\setlength{\itemsep}{0.45in}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+\begin{center}
+{\huge Aplicación de Métodos Numéricos al Ambiente Construido (CV1012)}\\[1.5ex]
+{\large \textbf{Tarea 01}\\[1.5ex] %You should put your name here
+31.03.20} %You should write the date here.
+\end{center}
+
+\vspace{0.2 cm}
+
+\subsection*{Funciones, ciclos, condiciones y operaciones}
+
+Programa en MATLAB/Octave la siguiente función:
+
+\begin{enumerate}[label=\alph*)]
+    \itemsep2.5ex
+    \item La Venganza del Hola Pueblo (\matlab{revenge}) es una función que imprime los números del 1 al $x$, pero bajo las siguientes condiciones:
+    \begin{itemize}
+        \item \textbf{Recibe} un solo parámetro, $x$.
+        \item \textbf{Imprime} ``Hola'' \textbf{si} el número a imprimir es divisible entre 3
+        \item \textbf{Imprime} ``Pueblo'' \textbf{si} el número a imprimir es divisible entre 5
+        \item \textbf{Imprime} ``Hola Pueblo'' \textbf{si} el número a imprimir es divisible entre 3 y entre 5
+        \item \textbf{Imprime} el número tal cual, \textbf{si} el número no cumple ninguna de las condiciones de arriba.
+    \end{itemize}
+\end{enumerate}
+
+Ejemplo: \texttt{revenge(18)} $\Rightarrow$
+\begin{lstlisting}[style=Matlab-editor]
+    > 1
+    > 2
+    > Hola
+    > 4
+    > Pueblo
+    > Hola
+    > 7
+    ...
+    > Hola
+    > 13
+    > 14
+    > Hola Pueblo
+    > 16
+    > 17
+    > Hola
+\end{lstlisting}
+
+\bigskip
+
+Deberás entregar \textbf{un archivo} de MATLAB con extensión \textbf{.m}: \texttt{revenge.m}.
+El archivo debe tener la función y su documentación \textbf{(al inicio)} en el siguiente formato:
+
+\bigskip
+
+\begin{lstlisting}[style=Matlab-editor]
+    function revenge(x)
+    % NAME: Arturo Gonzalez
+    % STUDENT ID: A01170065
+    % REVENGE(x)
+    % REVENGE does this
+    % You can use it like this
+    % Write here an example!
+    ...
+\end{lstlisting}
+
+\pagebreak
+
+{\Large Recomendaciones:}
+\begin{itemize}
+    \item Si lo crees necesario, haz un diagrama de flujo que te ayude a guiarte en el proceso.
+    \item Asegúrate de estar corriendo el MATLAB en el mismo lugar donde guardaste tus archivos.
+    \item Asegúrate de que tu archivo tiene nombre en minúsculas, sin espacios ni acentos o símbolos. 
+    \item No te olvides de \textbf{documentar tu función} e incluir tu nombre y número de matrícula en el formato especificado arriba.
+\end{itemize}
+\end{document}
