@@ -16,6 +16,7 @@
 \usepackage{matlab-prettifier}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{physics}
 
 \renewcommand{\indent}{\hspace*{2em}}
 
@@ -81,7 +82,7 @@
 
 \setbeamercovered{transparent}
 
-\title{Datos y Matrices}
+\title{Introducción a los métodos numéricos}
 \subtitle{Aplicación de Métodos Numéricos al Ambiente Construido \\ (CV1012)}
 \author{
     \texorpdfstring{
@@ -253,12 +254,236 @@
     \end{center}    
 \end{frame}
 
-\begin{frame}{Datos y errores}{Introducción a los métodos numéricos}
-    {\Huge \texttt{NotImplementedError}}
+\section{Modelación matemática}
+
+\begin{frame}{¿Qué es un modelo matemático?}{Modelación matemática}
+
+    Un modelo matemático es \alert{ecuación} que expresa las características esenciales de uns sistema, proceso o fenómeno en términos matemáticos. \pause
+
+    Usualmente, el modelo se representa mediante una \textbf{función} de la forma:
+
+    \begin{block}{Modelo matemático general}
+        $$y = f(\mathbf{x}, \mathbf{p}, \mathbf{w})$$
+
+        \begin{itemize}
+            \item $y$ es la variable dependiente,
+            \item $x$ son las variables independientes,
+            \item $p$ son los parámetros o propiedades del sistema
+            \item $w$ son las funciones de fuerza
+        \end{itemize}
+    \end{block} \pause
+
 \end{frame}
 
-\begin{frame}{Tipos de Errores}{Introducción a los métodos numéricos}
-    {\Huge \texttt{NotImplementedError}}
+\begin{frame}{¿Qué es un modelo matemático?}{Modelación matemática}
+    $$\alert<1>{y} = f(\alert<2>{\mathbf{x}}, \alert<3>{\mathbf{p}}, \alert<4>{\mathbf{w}})$$
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \item La \alert<1>{variable dependiente} es una característica que usualmente refleja el comportamiento o estado del sistema
+        \item Las \alert<2>{variables independientes} son dimensiones (e.g. tiempo o espacio) en las cuales se determina el comportamiento del sistema
+        \item Los \alert<3>{parámetros} son constantes que reflejan las propiedades o la composición del sistema
+        \item Las \alert<4>{funciones de fuerza} son influencias externas que actúan sobre el sistema
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+
+    \begin{center}
+        \includegraphics[width=0.3\textwidth]{parachuter.png}
+    \end{center}
+
+    ¿Cómo calcularíamos la velocidad de un paracaidista en caída libre justo antes de que abriese el paracaídas? Veamos\dots
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+    Comencemos con algo simple: ¿Qué hace caer al paracaidista? \pause
+
+    La fuerza de gravedad del paracaidista lo hará caer, y una fuerza opuesta (de resistencia al aire, por ejemplo) \textit{intentará frenarlo} (como soltar una hoja de papel en el aire). \pause
+    
+    Significa entonces que
+
+    $$\sum_{F_y} = F_g - F_r$$
+
+    donde $F_y$ es la fuerza ejercida sobre el paracaidista, por la fuerza de gravedad $F_g$ y la fuerza de resistencia $F_r$.
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+
+    \begin{align*}
+        F_g - F_r & = F_y \tag{reescribimos} \\
+        F_g - F_r & = ma \tag{por $F=ma$} \\
+        mg - F_r & = ma \tag{ditto} \\
+        mg - cv & = ma \tag{coeficiente de resistencia por velocidad} \\
+        ma & = mg - cv \tag{reescribimos} \\
+        m\dv{v}{t} & = mg - cv \tag{$a$ como $\dv{v}{t}$}
+    \end{align*}
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+
+    \begin{align*}
+        m\dv{v}{t} & = mg - cv \tag{de slide anterior} \\
+        m\dv{v(t)}{t} & = mg - cv(t) \tag{$v$ como función del tiempo} \\
+        \dv{v(t)}{t} + \frac{c}{m}v(t) & = g \tag{despejando $g$}
+    \end{align*} \pause
+
+    La ecuación final es una \textbf{ecuación diferencial lineal} de primer orden, la cual tiene una solución \textbf{ya dada}\footnote{P. Dawkins, \url{http://tutorial.math.lamar.edu/Classes/DE/Linear.aspx}} por:
+
+    $$v(t) = e^{-\int p(t)dt} \left( \int q(t) e^{\int p(t)dt} \, dt + k\right)$$
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+
+    Y dado a que queremos la velocidad $v(0) = 0$, entonces después de \textit{un poco} de álgebra, llegamos a la solución final
+
+    \begin{equation}
+        v(t) = \frac{gm}{c} \left(1 - e^{-\frac{c}{m}t}\right)
+    \end{equation}
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+    Resolvamos ahora para un paracaidista específico de $m = 68.1$kg y con un coeficiente de arrastre $c=12.5$kg/s:
+
+    \bigskip
+
+    $$v(t) = \frac{9.81(68.1)}{12.5} \left(1 - e^{\frac{-12.5}{68.1}t}\right) = 53.44(1 - e^{-0.18355t})$$
+
+    \bigskip
+
+    de la cual podemos obtener una tabla para darnos una idea\dots
+    % Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+
+    $$v(t) = 53.44(1 - e^{-0.18355t})$$
+
+    \bigskip
+    
+    \begin{table}[H]
+        \begin{tabular}{@{}lr@{}}
+        \toprule
+        \textbf{t (s)} & \textbf{v (m/s)} \\ \midrule
+        0              & 0.00             \\
+        2              & 16.42            \\
+        4              & 27.8             \\
+        6              & 35.68            \\
+        8              & 41.14            \\
+        10             & 44.92            \\
+        12             & 47.54            \\
+        $\infty$       & 53.44            \\ \bottomrule
+        \end{tabular}
+        \end{table}
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución analítica}{Modelación matemática}
+
+    Esta solución se conoce como \alert{solución analítica} o \textbf{exacta} del modelo, ya que podemos obtener \textit{fácilmente} las ecuaciones diferenciales para ello. No siempre es posible hacerlo.
+
+    \bigskip
+
+    Sin embargo, cuando no es posible hallar algo exacto, siempre podemos \textbf{aproximarlo}\dots
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución numérica}{Modelación matemática}
+    Podemos aproximar la derivada de la velocidad con respecto al tiempo como un \textit{cambio de la velocidad} entre un \textit{cambio en el tiempo}
+
+    \bigskip
+
+    $$\dv{v}{t} \approxeq \frac{\Delta v}{\Delta t} = \frac{v(t_{i+1}) - v(t_i)}{t_{i+1} - t_i}$$
+
+    \bigskip
+
+    Y con ello, podemos reformular nuestro problema
+
+    $$\sum_{F_y} = F_g - F_r$$
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución numérica}{Modelación matemática}
+
+    \begin{align*}
+        \sum_{F_y} & = F_g - F_r \tag{ecuación original} \\
+        ma  & = mg - cv(t_i) \tag{sustituyendo con $F=ma$} \\
+        m\dv{v}{t} & = mg - cv(t_i) \tag{$a$ como $\dv{v}{t}$} \\
+        m\frac{v(t_{i+1}) - v(t_i)}{t_{i+1} - t_i} & = mg - cv(t_i) \tag{reemplazamos por aproximación}
+    \end{align*}
+
+    y despejamos la $v(t_{i+1})$ que es lo que nos interesa\dots 
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución numérica}{Modelación matemática}
+
+    $$v(t_{i+1}) = v(t_i) + \left[ g - \frac{c}{m} v(t_i)\right](t_{i+1} - t_i)$$
+
+    Que es una ecuación para determinar la velocidad $v$ para el punto $t_{i+1}$ en el tiempo, usando la pendiente y los valores anteriores de $v$ y $t$. \pause
+
+    $$x_{i+1} = x_i + m \cdot s$$
+
+    \bigskip
+
+    Donde $x_i$ es el valor de la variable independiente en la $i$-ésima iteración, $m$ es la pendiente (o cómo cambia el sistema) y $s$ es el paso (o \textit{step}) de la aproximación.
+
+\end{frame}
+
+\begin{frame}{El paracaidista: Solución numérica}{Modelación matemática}
+    \begin{center}
+        \Large
+        Esta aproximación de forma
+        $$x_{i+1} = x_i + m \cdot s$$
+        se conoce como \alert{método de Euler}
+    \end{center} \pause
+
+    \begin{center}
+        \textit{Live coding: Euler's method}
+    \end{center}
+\end{frame}
+
+\section{Errores}
+
+\begin{frame}{Datos y errores}{Introducción a los métodos numéricos}
+    Sin embargo, sigue siendo una aproximación, por lo que existe cierto \alert{error} que vamos a ir cargando poco a poco por el redondeo. \pause
+
+    \bigskip
+
+    El \alert{error real} se calcula como
+    $$\varepsilon = \frac{x_{approx}}{x_{real}}$$ \pause
+
+    Si no sabemos el valor real $x_{real}$(muchas veces no lo sabremos) entonces se puede aproximar\dots \pause
+    $$\varepsilon_a = \frac{err_{approx}}{val_{approx}}$$ \pause
+
+    Y podemos aproximarlo por cada paso en la simulación
+
+    $$\varepsilon_a = \frac{x_i - x_{i-1}}{x_i}$$
+
+\end{frame}
+
+\begin{frame}{Datos y errores}{Introducción a los métodos numéricos}
+
+    Si siempre vamos a tener errores, ¿cuándo nos detenemos? \pause
+
+    Cuando estemos \textit{lo suficientemente cerca} a lo que determinemos como \textbf{adecuado} para la situación:
+
+    $$\mid \varepsilon_a \mid < \varepsilon_s$$
+
+    donde $\varepsilon_s$ es el \alert{error establecido}. \pause
+
+    Una buena idea es usar un error establecido de
+    
+    $$\varepsilon_s = 0.5 \times 10^{2-n}$$
+
+    donde el valor será correcto en al menos $n$ \textbf{cifras significativas}.
+    
 \end{frame}
 
 % What is control flow
