@@ -186,11 +186,64 @@ $$f(-3) = 7.588799919 \quad \text{ y } \quad f(-2) = -5.092974268$$
 
 \section{Falsa posición}
 
-\begin{frame}{Falsa posición}{Falsa Posición}
+\begin{frame}{Convergencia}{Falsa Posición}
+    Cuando hablamos de \alert{convergencia}, nos referimos al \textbf{momento} en el que se encuentra una \textit{solución aceptable}. \pause
+    
+    \bigskip
+
+    ¿Qué tan \textit{rápido} converge el método de la bisección? Pensemos en intervalos de `mitades' \pause
+
+    \bigskip
+
+    \begin{enumerate}[<+->]
+        \item El punto medio entre -2 y -3 es \textbf{-2.5}
+        \item El punto medio entre -2 y -2.5 es \textbf{-2.25}
+        \item El punto medio entre -2.25 y -2.5 es \textbf{-2.375}
+        \item El punto medio entre -2.375 y -2.5 es \textbf{-2.4375}
+        \item El punto medio entre -2.4375 y -2.5 es \textbf{-2.46875}
+        \item El punto medio entre -2.46875 y -2.5 es \textbf{-2.484375}
+        \item \dots
+    \end{enumerate} \pause
+
+    ¿Cuánto hay entre los resultados del paso 1 y el 2? \pause ¿Y entre el 2 y el 3? ¿Y entre el 3 y el 4?
+\end{frame}
+
+\begin{frame}{Convergencia}{Falsa posición}
+    \begin{center}
+        {\huge ¿Podemos hacer que converja más rápido?}
+        (\textit{Spoiler alert: sí podemos.})
+    \end{center}
+\end{frame}
+
+\begin{frame}{El método de la falsa posición}{Falsa posición}
+
+    El método de la \alert{falsa posición} consiste en generar una \textit{raíz falsa}, más cerca de la verdadera raíz que alguno de los dos límites que usamos en el método de bisección. \pause
+
+    \bigskip
+
+    Usando una línea recta podemos deducir dónde estará nuestra \textbf{falsa posición} y luego trabajar con eso:
+
+    $$ x_r = x_u - \frac{f(x_u)(x_l - x_u)}{f(x_l) - f(x_u)}$$ \pause
+
+    Usando los mismos pasos del algoritmo de bisección, lo único que incorporaremos para mejorar el algoritmo es cambiar el paso de bisección por este nuevo paso y listo.
+
+\end{frame}
+
+\section{Notas sobre los \textit{bracketing methods}}
+
+\begin{frame}{Notas sobre los \textit{bracketing methods}}
+
+    \begin{itemize}
+        \itemsep3ex
+        \item Tanto el método de la falsa posición como el de la bisección se conocen como \textbf{métodos de intervalos} o en inglés, \textit{bracketing methods}.
+        \item El método de la \textbf{falsa posición} no siempre es más rápido que el de bisección.
+        \item El tamaño de los \textit{`brincos'} importa:
+    \end{itemize}
 
     \begin{center}
-        \Huge NotImplementedError
+        \includegraphics[width=0.5\textwidth]{steps.png}
     \end{center}
+
 \end{frame}
 
 % What is control flow
