@@ -1,0 +1,922 @@
+\documentclass[spanish, c]{beamer}
+
+\usepackage[utf8]{inputenc}
+%\usepackage[spanish, mexico]{babel}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{ragged2e}
+\usepackage{mathrsfs}
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage[scaled]{beramono}
+\usepackage[T1]{fontenc}
+\usepackage{matlab-prettifier}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\renewcommand{\indent}{\hspace*{2em}}
+
+% \usepackage{tikz}
+
+% \usetikzlibrary{fit, shapes, arrows}
+
+% \usepackage{courier}
+% \usepackage{subfigure}
+% \usepackage{enumerate}
+% \usepackage{algorithmic}
+% \usepackage{algorithm}
+
+% \usepackage{listings}
+% \usepackage{lstlinebgrd}
+
+\usetheme{Boadilla}
+\usefonttheme[onlymath]{serif}
+
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-editor]!#1!}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+\lstset
+{
+    language = Matlab,
+    style = Matlab-editor,
+    basicstyle = \mlttfamily\scriptsize,
+    escapechar = `,
+    numbers = left,
+    frame = tb,
+}
+
+\lstdefinestyle{output}
+{
+    language = {},
+    basicstyle = \mlttfamily\scriptsize,
+    escapechar = `,
+    numbers = none,
+    showtabs = false,
+   	showstringspaces = false,
+}
+
+% Sets the templates
+\definecolor{navyblue}{RGB}{0, 0, 128}
+\definecolor{crimson}{RGB}{128, 16, 0}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true]
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{theorems}[numbered]
+
+\setbeamercolor{title}{fg=navyblue, bg=white}
+\setbeamercolor{frametitle}{fg=navyblue, bg=white}
+\setbeamercolor{structure}{fg=navyblue}
+\setbeamercolor{button}{fg=white,bg=navyblue}
+
+\setbeamercovered{transparent}
+
+\title{Datos y Matrices}
+\subtitle{Aplicación de Métodos Numéricos al Ambiente Construido \\ (CV1012)}
+\author{
+    \texorpdfstring{
+        \begin{center}
+            M.C. Xavier Sánchez Díaz \\
+            \href{mailto:sax@tec.mx}{\texttt{sax@tec.mx}}
+        \end{center}
+    }
+    {M.C. Xavier Sánchez Díaz}
+}
+
+\institute[Tecnológico de Monterrey]{\includegraphics[scale=0.5]{../img/logo}}
+\date{}
+
+\begin{document}
+
+\setlength{\rightskip}{0pt}
+
+\begin{frame}[plain]
+    \titlepage        
+\end{frame}
+
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+\section{Datos y operaciones}
+
+\begin{frame}{Tipos de datos}{Datos y operaciones}
+    
+   Recordemos los \alert{tipos de datos} con los que podemos trabajar en una computadora: \pause
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \item Números enteros (\textit{integer numbers})
+        \item Números decimales (\textit{floating point numbers})
+        \item Cadenas de caracteres alfanuméricos (\textit{strings})
+    \end{itemize} \pause
+
+    \bigskip
+    
+    En \textbf{métodos numéricos} sólo nos preocuparemos por números. \pause
+
+    Cuando \textbf{operamos} con estos datos, generamos nueva información que podríamos necesitar en el futuro.
+
+\end{frame}
+
+\begin{frame}{Datos como resultados}{Datos y operaciones}
+    Antes de usar la computadora o la calculadora para hacer cálculos, solíamos hacer las operaciones a mano.
+    
+    Por ejemplo, si queremos calcular $1270 \times 35$, una manera de hacerlo podría ser\dots
+
+\end{frame}
+
+\begin{frame}{Datos como resultados}{Datos y operaciones}
+    \begin{align*}
+        1270 \times 35 & = \\ \pause
+        & = (1200 + 70) \times (7)(5) \\ \pause
+        & = (\alert<4>{12})(\alert<5,6>{7})(\alert<4>{5})(\alert<7>{100}) + (\alert<8>{7})(\alert<8>{7})(\alert<10>{5})(\alert<9>{10}) \pause
+    \end{align*}
+    \vspace{-2ex}
+    \begin{align*}
+        \alert<4>{12} \times \alert<4>{5} = \alert<5,6>{60} \\
+        \alert<5,6>{60} \times \alert<5,6>{7} = \alert<6>{6} \times \alert<6>{7} \times \alert<6>{10} = \alert<7>{420} \\
+        \alert<7>{420} \times \alert<7>{100} = \alert<11>{42000} \\[1.5ex]
+        \alert<8>{7} \times \alert<8>{7} = \alert<9>{49} \\
+        \alert<9>{49} \times \alert<9>{10} = \alert<10>{490} \\
+        \alert<10>{490} \times \alert<10>{5} = \alert<10>{490} \times \alert<10>{10 / 2} = \alert<11>{2450}\\[1.5ex]
+        \alert<11>{42000} + \alert<11>{2450} = 44450 \quad \square
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Datos como resultados}{Datos y operaciones}    
+    La operación completa se hace poco a poco, y por tanto necesitamos ``recordar'' ciertos pasos intermedios que ya tenemos calculados. \pause
+
+    \bigskip
+    
+    Así como nosotros tenemos que tener en claro cuáles son esos pasos intermedios, la computadora debe saber \textit{dónde está} la información que tiene que leer para trabajar y hacer cálculos más elaborados. \pause
+
+    \bigskip
+
+    Para eso, podemos usar las estructuras de datos, para \textbf{ordenarlos} de manera conveniente y poder tener acceso a ellos de manera que se vayan necesitando.
+
+\end{frame}
+
+\section{Estructuras matemáticas}
+
+\begin{frame}{Variables}{Estructuras matemáticas}
+    La forma más simple de guardar \textbf{un solo dato} es usando una \alert{variable}. \pause
+
+    En álgebra, hemos usado estas \textit{variables} para expresar qué hace una función y saber su resultado: \pause
+
+    $$2\alert<5>{y} = 2\alert<4>{x} + 5\alert<6>{z} + 6$$ \pause
+
+    \begin{itemize}
+        \item $\alert<4>{x}$ es una variable que tiene algún valor que no conocemos en este momento
+        \item $\alert<5>{y}$ es otra variable (porque tiene distinto nombre) y tampoco sabemos su valor ahora, pero sabemos cómo calcularla
+        \item $\alert<6>{z}$ es otra variable más (porque tiene otro nombre distinto a los dos anteriores)
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[t]{Variables}{Estructuras matemáticas}    
+    $$\alert<3>{2y} = 2\alert<2>{x} + 5{z} + 6$$
+
+    \bigskip
+
+    Si ahora le damos valor a $x$ y $z$, por ejemplo, $x = 3$ y $z = 2$ \dots \pause
+
+    \bigskip
+
+    \begin{itemize}
+        \itemsep1.7ex
+        \item $\alert<2>{x}$ guarda el valor de $3$
+        \item $\alert<3>{y}$ guarda \textbf{la mitad} de $2(3) + 5(2) + 6$.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arreglos}{Estructuras matemáticas}
+    Asumamos que quiero saber las calificaciones de las Tareas 1, 2 y 3 de uno de mis alumnos.
+    Para esto, necesitaría un lugar para guardar esos \textbf{3 datos}: \pause
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \item $t_1 = 90$ será la variable para la Tarea 1
+        \item $t_2 = 75$ será la variable para la Tarea 2
+        \item $t_3 = 87$ será la variable para la Tarea 3
+    \end{itemize}
+
+    \bigskip
+
+    Con esta información, ahora contesta:
+
+    \begin{itemize}[<+->]
+        \item ¿Cuál fue la calificación para la Tarea 2?
+        \item ¿Cuál fue el promedio del alumno?
+        \item ¿Cuál es la tarea en la que mejor le fue?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Arreglos}{Estructuras matemáticas}
+    La pregunta ahora es\dots ¿Realmente necesito \textbf{3 variables} para guardar \textbf{3 datos}?
+    Podemos \textit{arreglar} los datos de tal manera que \textbf{su posición} nos aporte algo más: \pause
+
+    $$\mathbf{t} = \langle 90, 75, 87 \rangle$$ \pause
+
+    La \textbf{posición} en esta \textit{lista ordenada} nos indica qué número de tarea fue, y el valor que haya en dicha posición guarda la calificación. Por lo mismo, podemos usar ``una sola variable'' para guardar de manera ordenada la información requerida, y referirnos sólo a la posición deseada:
+
+    $$\mathbf{t}_2 = 75$$
+\end{frame}
+
+\begin{frame}{Arreglos}{Estructuras matemáticas}
+    Cuando \textit{arreglamos} los datos para usarlos de manera lineal, estamos creando una \textbf{lista}. \pause
+
+    $$\mathbf{x} = \langle 1, 2, 10, 23, 2, -1, 70, 15\rangle$$
+
+    \begin{itemize}[<+->]
+        \item Usamos negritas para denotar la diferencia entre la variable $x$ que guarda un valor, y la variable $\mathbf{x}$ que guarda \textbf{múltiples} valores
+        \item Usamos \textit{angle brackets} (\textit{cuñas} les dicen en español) para delimitar la lista de sus valores
+        \item A diferencia de un conjunto, el orden de los valores \textbf{sí importa}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Matrices}{Estructuras matemáticas}
+    Supongamos que ahora necesito saber las calificaciones de las tres tareas, pero ahora de \textbf{varios alumnos}.
+
+    Esto significa que ahora necesitamos \textbf{varias listas}, pero en su lugar podemos \textit{arreglar} los datos como \textbf{una secuencia de tareas} (\textit{la tarea 1, la tarea 2\dots}). \pause
+    
+    A su vez, cada una de las tareas tiene una \textbf{secuencia de alumnos} (\textit{el alumno 1, el alumno 2\dots}) \pause
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{align*}
+                & alumno_1 \\
+                & alumno_2 \\
+                & alumno_3 \\
+                & alumno_4
+            \end{align*}
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \begin{align*}
+                \begin{bmatrix*}[r]
+                    90 & 75 & 87 \\
+                    100 & 100 & 95 \\
+                    90 & 70 & 88 \\
+                    85 & 65 & 50
+                \end{bmatrix*}
+            \end{align*}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Matrices}{Estructuras matemáticas}
+    $$A = 
+    \begin{bmatrix*}[r]
+        90 & 75 & 87 \\
+        \alert<4>{100} & \alert<4>{100} & \alert<4>{95} \\
+        90 & \alert<5>{70} & 88 \\
+        85 & 65 & 50
+    \end{bmatrix*}
+    $$
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \item Una \alert{matriz} es una lista de columnas\
+        \item Solemos usar mayúsculas para los nombres de las matrices
+        \item En este caso, $A$ tiene 4 renglones y 3 columnas, es decir que es de $4 \times 3$
+        \item El renglón $\alert<4>{A_2}$ es $\langle 100, 100, 95 \rangle$
+        \item El elemento $\alert<5>{A_{3,2}}$ es $70$
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Matrices}{Estructuras matemáticas}
+    Cuando una matriz es de $1 \times n$ es una matriz \alert{renglón}:
+
+    $$B = \begin{bmatrix*}[r] 100 & 95 & 89 & 92 \end{bmatrix*}$$ \pause
+
+    Cuando una matriz es de $n \times 1$ es una matriz \alert{columna} o \alert{vector}:
+
+    $$\mathbf{c} =
+    \begin{bmatrix*}[r]
+        100 \\ 91 \\ 95 \\ 98 \\ 85
+    \end{bmatrix*}$$
+
+\end{frame}
+
+\begin{frame}{Matrices}{Estructuras matemáticas}
+    \[%
+        A =
+        \begin{bmatrix*}[r]
+        \alert<1-3>{10}            & \only<1,2>{15} \only<3>{0} & \only<1,2>{2} \only<3>{0}  & \only<1,2>{4} \only<3>{0} \\
+        \only<1,3>{-2} \only<2>{0} & \alert<1-3>{8}             & \only<1,2>{20} \only<3>{0} & \only<1,2>{7} \only<3>{0} \\
+        \only<1,3>{1} \only<2>{0}  & \only<1,3>{5} \only<2>{0}  & \alert<1-3>{13}             & \only<1,2>{14} \only<3>{0} \\
+        \only<1,3>{20} \only<2>{0} & \only<1,3>{4} \only<2>{0}  & \only<1,3>{2} \only<2>{0}  & \alert<1-3>{10}
+        \end{bmatrix*}
+    \]
+
+    \begin{itemize}
+        \item La \alert<1>{diagonal principal} hace referencia a cada elemento $a_{ii}$
+        \item Si todo \textbf{abajo} de la diagonal principal es 0, entonces le llamamos \alert<2>{matriz triangular superior}
+        \item Si todo \textbf{arriba} de la diagonal principal es 0, entonces le llamamos \alert<3>{matriz triangular inferior}
+    \end{itemize}
+
+\end{frame}
+
+\section{Operaciones matriciales}
+
+\begin{frame}{¿Y qué puedo hacer con las matrices?}{Operaciones matriciales}
+    Podemos \alert{sumar dos matrices} si tienen \textbf{las mismas dimensiones}:
+
+    \[%
+        \begin{bmatrix*}[r]
+            1 & 2 & 3 & 4 \\
+            0 & 7 & 2 & 9 \\
+            2 & 2 & 3 & 1
+        \end{bmatrix*} +
+        \begin{bmatrix*}[r]
+            3 & 7 & 2 & 0 \\
+            7 & -2 & 8 & 5 \\
+            1 & 3 & -8 & 2
+        \end{bmatrix*} =
+        \begin{bmatrix*}[r]
+            4 & 9 & 5 & 4 \\
+            7 & 5& 10 & 14 \\
+            3 & 5 & -5 & 3
+        \end{bmatrix*} \]
+
+\end{frame}
+
+\begin{frame}{Suma de Matrices}{Operaciones matriciales}
+
+    En general \dots
+
+    \bigskip
+
+    \[%
+        \begin{bmatrix*}[r]
+            a_{11} & \dots & \dots & a_{1j} \\
+            \vdots & \ddots & \ddots & \vdots \\
+            a_{i1} & \dots & \dots & a_{ij}
+        \end{bmatrix*} +
+        \begin{bmatrix*}[r]
+            b_{11} & \dots & \dots & b_{1j} \\
+            \vdots & \ddots & \ddots & \vdots \\
+            b_{i1} & \dots & \dots & b_{ij}
+        \end{bmatrix*} =  \]
+        
+        \bigskip
+
+        \[
+        \begin{bmatrix*}[r]
+            a_{11}  + b_{11} & \dots & \dots & a_{1j}  + b_{1j} \\
+            \vdots & \ddots & \ddots & \vdots \\
+            a_{i1}  + b_{i1} & \dots & \dots & a_{ij}  + b_{ij}
+        \end{bmatrix*} \]
+
+\end{frame}
+
+\begin{frame}{Producto por un escalar}{Operaciones matriciales}
+
+    Podemos \alert{multiplicar} la matriz \alert{por un escalar} (o sea, una cantidad):
+
+    \bigskip
+
+    \[%
+        2
+        \begin{bmatrix*}[r]
+            1 & 2 & 3 & 4 \\
+            5 & 6 & 7 & 8 \\
+            9 & 10 & 11 & 12 \\
+            13 & 14 & 15 & 16
+        \end{bmatrix*} =
+    \begin{bmatrix*}[r]
+       2 & 4 & 6 & 8 \\
+       10 & 12 & 14 & 16 \\
+       18 & 20 & 22 & 24 \\
+       26 & 28 & 30 & 32
+    \end{bmatrix*}
+    \]
+
+    En este caso, estamos \textbf{escalando} la matriz por 2. ¿Qué pasa si multiplicamos por $\dfrac{2}{3}$?
+\end{frame}
+
+\begin{frame}{Producto por escalar}{Operaciones matriciales}
+    En general\dots
+
+    \[%
+        c
+        \begin{bmatrix*}[r]
+            a_{11} & \dots & \dots & a_{1j} \\
+            \vdots & \ddots & \ddots & \vdots \\
+            a_{i1} & \dots & \dots & a_{ij}
+        \end{bmatrix*} =
+    \]
+
+    \bigskip
+
+    \[%
+        \begin{bmatrix*}[r]
+            ca_{11} & \dots & \dots & ca_{1j} \\
+            \vdots & \ddots & \ddots & \vdots \\
+            ca_{i1} & \dots & \dots & ca_{ij}
+        \end{bmatrix*}
+    \]
+    
+\end{frame}
+
+\begin{frame}{Producto matricial}{Operaciones matriciales}
+
+    Para multiplicar dos matrices (ya sea \textbf{matriz por vector}, o \textbf{matriz por matriz}), es necesario que el \alert{número de renglones} de \textit{la primera} \alert{coincida} con el \alert{número de columnas} de \textit{la segunda}. \pause
+    
+    \bigskip
+    
+    La matriz resultante tendrá el \textbf{mismo número de renglones} de \textit{la primera} y el \textbf{mismo número de columnas} que \textit{la segunda}. \pause
+
+    \bigskip
+
+    \begin{exampleblock}{Una manera fácil de recordar}
+        Si $A$ tiene dimensiones $2 \times 3$ y $B$ tiene dimensiones de $3 \times 3$ \dots
+        \[({\color{magenta} 2} \times {\color{blue} 3}) \times ({\color{blue} 3} \times {\color{magenta} 3})\]
+
+        \dots entonces {\color{blue} sí se pueden multiplicar} y el resultado tendrá {\color{magenta} dimensiones $2 \times 3$}
+    \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Matriz por vector}{Operaciones matriciales}    
+
+    El resultado se obtiene sumando las multiplicaciones de \textbf{cada una de las columnas} de la primera, por \textbf{cada una de las filas} de la segunda.
+
+    \[%
+        \begin{bmatrix*}[r]
+            \alert<2>{2} & \alert<3>{0} & \alert<4>{-1} \\
+            \alert<5>{3} & \alert<6>{4} & \alert<7>{-2}
+        \end{bmatrix*}
+        %
+        \begin{bmatrix*}[r]
+            \alert<2,5>{-4} \\
+            \alert<3,6>{5} \\
+            \alert<4,7>{-7}
+        \end{bmatrix*} =
+        %
+        \begin{bmatrix*}[r]
+            \alert<2>{(2)(-4)} + \alert<3>{(0)(5)} + \alert<4>{(-1)(-7)} \\[2ex]
+            \alert<5>{(3)(-4)} + \alert<6>{(4)(5)} + \alert<7>{(-2)(-7)}
+        \end{bmatrix*}
+    \]  \pause
+
+    \bigskip
+
+    \[%
+        \visible<8->{=
+        \begin{bmatrix*}[r]
+            -8 + 0 + 7 \\
+            -12 + 20 +14
+        \end{bmatrix*} =
+        %
+        \begin{bmatrix*}[r]
+            -1 \\
+            22
+        \end{bmatrix*}}
+    \]
+    
+\end{frame}
+
+\begin{frame}{Matriz por vector}{Operaciones matriciales}    
+
+    El resultado se obtiene sumando las multiplicaciones de \textbf{cada una de las filas} de la primera, por \textbf{cada una de las filas} de la segunda; elemento por elemento.
+
+    \[%
+        \begin{bmatrix*}[r]
+            {\color{blue} 2} & {\color{blue} 0} & {\color{blue} -1}\\
+            {\color{magenta} 3} & {\color{magenta} 4} & {\color{magenta} -2}
+        \end{bmatrix*}
+        %
+        \begin{bmatrix*}[r]
+            -4 \\
+            5 \\
+            -7
+        \end{bmatrix*} =
+        %
+        \begin{bmatrix*}[r]
+            {({\color{blue} 2})}(-4) + {({\color{blue} 0})}(5) + {({\color{blue} -1})}(-7) \\[2ex]
+            {({\color{magenta} 3})}(-4) + {({\color{magenta} 4})}(5) + {({\color{magenta} -2})}(-7)
+        \end{bmatrix*}
+    \]
+
+    \bigskip
+
+    \[%
+        =
+        \begin{bmatrix*}[r]
+            -8 + 0 + 7 \\
+            -12 + 20 +14
+        \end{bmatrix*} =
+        %
+        \begin{bmatrix*}[r]
+            -1 \\
+            22
+        \end{bmatrix*}
+    \]
+\end{frame}
+
+\begin{frame}{Matriz por vector}{Operaciones matriciales}
+    
+    También podemos verlo como una reducción de multiplicaciones escalares (y es más sencillo de visualizar):
+
+    \bigskip
+
+    \[%
+        \begin{bmatrix*}[r]
+            {\color{blue} 2} & {\color{red} 0} & {\color{magenta} -1}\\
+            {\color{blue} 3} & {\color{red} 4} & {\color{magenta} -2}
+        \end{bmatrix*}
+        %
+        \begin{bmatrix*}[r]
+            -4 \\
+            5 \\
+            -7
+        \end{bmatrix*} =
+        %
+        -4 %
+        \begin{pmatrix*}[r]
+            \color{blue} 2 \\ \color{blue} 3
+        \end{pmatrix*}
+        + 5 %
+        \begin{pmatrix*}[r]
+            \color{red} 0 \\ \color{red} 4
+        \end{pmatrix*}
+        -7 %
+        \begin{pmatrix*}[r]
+            \color{magenta} -1 \\ \color{magenta} -2
+        \end{pmatrix*}
+    \]
+
+    \bigskip
+
+    \[= %
+        \begin{pmatrix*}[r]
+            \color{blue} -8 \\ \color{blue} -12
+        \end{pmatrix*}
+        + %
+        \begin{pmatrix*}[r]
+            \color{red} 0 \\ \color{red} 20
+        \end{pmatrix*}
+        + %
+        \begin{pmatrix*}[r]
+            \color{magenta} 7 \\ \color{magenta} 14
+        \end{pmatrix*}
+        = %
+        \begin{bmatrix*}[r]
+            -1 \\ 22
+        \end{bmatrix*}
+    \]
+
+\end{frame}
+
+\begin{frame}{Matriz por matriz}{Operaciones matriciales}
+
+    Para el caso de matriz por matriz, la idea es la misma.
+
+    \bigskip
+
+    El resultado de $AB$ es la \textbf{combinación lineal} de $A$ por cada una de las columnas de $B$, $AB = [A\mathbf{b_1} \dots A\mathbf{b_k}]$
+
+    \bigskip
+    
+    \[%
+        A = %
+        \begin{bmatrix*}[r]
+            2 & 0 & 1 \\
+            2 & 1 & 2
+        \end{bmatrix*}, \quad
+        B = %
+        \begin{bmatrix*}[r]
+            3 & 2 & 4 \\
+            -2 & 4 & 5 \\
+            0 & 3 & -2
+        \end{bmatrix*}
+    \] \pause
+
+    \bigskip
+
+    ¿Se pueden multiplicar? \pause ¿De qué tamaño será la matriz resultante?    
+
+\end{frame}
+
+\begin{frame}{Matriz por matriz}{Operaciones matriciales}
+
+    \[%
+        A = %
+        \begin{bmatrix*}[r]
+            \color{blue} 2 & \color{blue} 0 & \color{blue} 1 \\
+            \color{blue} 2 & \color{blue} 1 & \color{blue} 2
+        \end{bmatrix*},
+        \quad B = %
+        \begin{bmatrix*}[r]
+            \color{red} 3 & 2 & 4 \\
+            \color{red} -2 & 4 & 5 \\
+            \color{red} 0 & 3 & -2
+        \end{bmatrix*}
+    \]
+
+    \bigskip
+
+    $A$ por primera columna de $B$:
+
+    \[%
+        A\mathbf{b_1} =
+        \begin{bmatrix*}[r]
+            \color{blue} 2 & \color{blue} 0 & \color{blue} 1 \\
+            \color{blue} 2 & \color{blue} 1 & \color{blue} 2
+        \end{bmatrix*}
+        \begin{bmatrix*}[r]
+            \color{red} 3 \\ \color{red} -2 \\ \color{red} 0
+        \end{bmatrix*}
+        = {\color{red} 3} %
+        \begin{pmatrix*}[r]
+            \color{blue} 2 \\ \color{blue} 2
+        \end{pmatrix*}
+        {\color{red} -2} %
+        \begin{pmatrix*}[r]
+            \color{blue} 0 \\ \color{blue} 1
+        \end{pmatrix*}
+        {\color{red} + 0} %
+        \begin{pmatrix*}[r]
+            \color{blue} 1 \\ \color{blue} 2
+        \end{pmatrix*}
+        = %
+        \begin{bmatrix*}[r]
+            6 \\ 4
+        \end{bmatrix*}
+    \]
+\end{frame}
+
+\begin{frame}{Matriz por matriz}{Operaciones matriciales}
+    
+    \[%
+        A = %
+        \begin{bmatrix*}[r]
+            \color{blue} 2 & \color{blue} 0 & \color{blue} 1 \\
+            \color{blue} 2 & \color{blue} 1 & \color{blue} 2
+        \end{bmatrix*}, \quad
+        B = %
+        \begin{bmatrix*}[r]
+            3 & \color{red} 2 & 4 \\
+            -2 & \color{red} 4 & 5 \\
+            0 & \color{red} 3 & -2
+        \end{bmatrix*}
+    \]
+
+    \bigskip
+
+    $A$ por segunda columna de $B$:
+
+    \[A\mathbf{b_2} =
+        \begin{bmatrix*}[r]
+            \color{blue} 2 & \color{blue} 0 & \color{blue} 1 \\
+            \color{blue} 2 & \color{blue} 1 & \color{blue} 2
+        \end{bmatrix*}
+        %
+        \begin{bmatrix*}[r]
+            \color{red} 2 \\ \color{red} 4 \\ \color{red} 3
+        \end{bmatrix*}
+        = {\color{red} 2} %
+        \begin{pmatrix*}[r]
+            \color{blue} 2 \\ \color{blue} 2
+        \end{pmatrix*}
+        {+ \color{red} 4} %
+        \begin{pmatrix*}[r]
+            \color{blue} 0 \\ \color{blue} 1
+        \end{pmatrix*}
+        {\color{red} + 3} %
+        \begin{pmatrix*}[r]
+            \color{blue} 1 \\ \color{blue} 2
+        \end{pmatrix*}
+        = %
+        \begin{bmatrix*}[r]
+            7 \\ 14
+        \end{bmatrix*}
+    \]
+\end{frame}
+
+\begin{frame}{Matriz por matriz}{Operaciones matriciales}
+    
+    \[%
+        A = %
+        \begin{bmatrix*}[r]
+            \color{blue} 2 & \color{blue} 0 & \color{blue} 1 \\
+            \color{blue} 2 & \color{blue} 1 & \color{blue} 2
+        \end{bmatrix*}, \quad
+        B = %
+        \begin{bmatrix*}[r]
+            3 & 2 & \color{red} 4 \\
+            -2 & 4 & \color{red} 5 \\
+            0 & 3 & \color{red} -2
+        \end{bmatrix*}
+    \]
+
+    \bigskip
+
+    $A$ por tercera columna de $B$:
+
+    \[A\mathbf{b_3} =
+        \begin{bmatrix*}[r]
+            \color{blue} 2 & \color{blue} 0 & \color{blue} 1 \\
+            \color{blue} 2 & \color{blue} 1 & \color{blue} 2
+        \end{bmatrix*}
+        %
+        \begin{bmatrix*}[r]
+            \color{red} 4 \\ \color{red} 5 \\ \color{red} -2
+        \end{bmatrix*}
+        = {\color{red} 4} %
+        \begin{pmatrix*}[r]
+            \color{blue} 2 \\ \color{blue} 2
+        \end{pmatrix*}
+        {\color{red} + 5} %
+        \begin{pmatrix*}[r]
+            \color{blue} 0 \\ \color{blue} 1
+        \end{pmatrix*}
+        {\color{red} -2} %
+        \begin{pmatrix*}[r]
+            \color{blue} 1 \\ \color{blue} 2
+        \end{pmatrix*}
+        = %
+        \begin{bmatrix*}[r]
+            6 \\ 9
+        \end{bmatrix*}
+    \]
+\end{frame}
+
+\begin{frame}{Matriz por matriz}{Operaciones matriciales}
+
+    El resultado es entonces todas las columnas resultantes, una después de la otra:
+    
+    \bigskip
+
+    \[
+        AB = [A\mathbf{b_1} \, A\mathbf{b_2} \, A\mathbf{b_3}] =
+        \begin{bmatrix*}[r]
+            6 & 7 & 6 \\
+            4 & 14 & 9
+        \end{bmatrix*}
+    \]
+
+\end{frame}
+
+\section{Ejemplos}
+
+\begin{frame}{Ensamblando Robots}{Ejemplos}
+
+    \textit{IntelliCorp} produce dos tipos de procesadores, el \texttt{x230} y el \texttt{x260} para sus robots.
+    
+    Para poder fabricarlos, se necesita \textbf{silicio}, \textbf{cobre} y \textbf{aluminio}.
+
+    El \texttt{x230} usa 4, 3 y 5 láminas, respectivamente, mientras que el \texttt{x260} usa 5, 2 y 6 placas.
+
+    Acaba de llegar un pedido del área de manufactura solicitando 10 procesadores tipo \texttt{x230} y 21 de tipo \texttt{x260} para el sistema óptico del \textit{Spade VIII}.
+    
+    \begin{center}
+        ¿Cuánta materia prima necesita \textit{Intellicorp} para cumplir con el pedido?    
+    \end{center}    
+
+\end{frame}
+
+\begin{frame}{Visualizando la información}{Ensamblando Robots}
+
+    El pedido es de 10 \texttt{x230} y 21 \texttt{x260}, y los requerimientos son:
+
+        \begin{center}
+            \begin{table}[H]
+                \begin{tabular}{@{}ccc@{}}
+                \toprule
+                                        & x230 & x260 \\ \midrule
+                \multicolumn{1}{c|}{Si} & 4    & 5    \\
+                \multicolumn{1}{c|}{Cu} & 3    & 2    \\
+                \multicolumn{1}{c|}{Al} & 5    & 6    \\ \bottomrule
+                \end{tabular}
+            \end{table}
+        \end{center} \pause
+
+    Es decir $\begin{bmatrix*}[r] 4 & 5 \\ 3 & 2 \\ 5 & 6 \end{bmatrix*} \begin{bmatrix} 10 \\ 21\end{bmatrix}$.
+\end{frame}
+
+\begin{frame}{Manos a la obra}{Ensamblando robots}
+
+    \begin{align*}
+        \begin{bmatrix*}[r]
+            4 & 5 \\
+            3 & 2 \\
+            5 & 6
+        \end{bmatrix*}
+        %
+        \begin{bmatrix} 10 & 21\end{bmatrix} = &
+        10 %
+        \begin{pmatrix}
+            4 \\ 3 \\ 5
+        \end{pmatrix}
+        + 21 %
+        \begin{pmatrix}
+            5 \\ 2 \\ 6
+        \end{pmatrix} \\[2ex]
+        = & \begin{bmatrix} 40 \\ 30 \\ 50 \end{bmatrix} + \begin{bmatrix} 105 \\ 42 \\ 126 \end{bmatrix} \\[2ex]
+        = & \begin{bmatrix} 145 \\ 72 \\ 176 \end{bmatrix}
+    \end{align*}
+
+    Significa que necesitamos 145 placas de silicio, 72 placas de cobre y 176 placas de aluminio $\blacksquare$
+
+\end{frame}
+
+\begin{frame}{Sistemas de visión}{Ensamblando Robots}
+    El \textit{Spade VIII} es un robot caza.
+    Sin embargo, los modelos más sencillos como el \textit{Apis IV} y el \textit{Myxini II} utilizan menos procesadores \texttt{x230} y \texttt{x260} para funcionar. Específicamente:
+
+    \begin{center}
+        \begin{center}
+            \begin{table}[H]
+                \begin{tabular}{@{}ccc@{}}
+                \toprule
+                                        & Apis IV & Myxini II \\ \midrule
+                \multicolumn{1}{c|}{x230} & 8    & 2    \\
+                \multicolumn{1}{c|}{x260} & 3    & 4    \\ \bottomrule
+                \end{tabular}
+            \end{table}
+        \end{center} 
+    \end{center}
+
+    Si queremos hacer sistemas de visión para 11 \textit{Apis IV} y 20 \textit{Myxiny II}, ¿Cuántos procesadores de cada tipo necesito?
+\end{frame}
+
+\begin{frame}{Sistemas de visión}{Ensamblando Robots}
+    \begin{align*}
+        \begin{bmatrix}
+            8 & 2 \\ 3 & 4
+        \end{bmatrix}
+        \begin{bmatrix} 11 \\ 20\end{bmatrix} & = \\[2ex]
+        & = 11 \begin{pmatrix} 8 \\ 3\end{pmatrix} + 20 \begin{pmatrix} 2 \\ 4\end{pmatrix} \\[2ex]
+        & = \begin{bmatrix} 128 \\ 113 \end{bmatrix}
+    \end{align*}
+
+    Necesito entonces 128 \texttt{x230} y 113 \texttt{x260} para cumplir el pedido $\blacksquare$
+    
+    \bigskip
+
+    ¿Cuánto representa esto en placas de silicio, cobre y aluminio?
+\end{frame}
+
+\begin{frame}{Costo total}{Ensamblando Robots}
+    Usando la matriz de requerimiento original, tenemos:
+
+    \begin{align*}
+        \begin{bmatrix} 4 & 5 \\ 3 & 2 \\ 5 & 6 \end{bmatrix}
+        \begin{bmatrix} 128 \\ 113 \end{bmatrix} & = \\[2ex]
+        & = 128 \begin{pmatrix} 4 \\ 3 \\ 5\end{pmatrix} + 113 \begin{pmatrix} 5 \\ 2 \\ 6 \end{pmatrix} \\[2ex]
+        & = \begin{bmatrix} 1077 \\ 610 \\ 1318 \end{bmatrix}
+    \end{align*}
+
+    Por lo que necesitamos 1077 placas de silicio, 610 de cobre y 1318 de aluminio $\blacksquare$
+\end{frame}
+
+\begin{frame}{Por aire y por mar}{Ensamblando Robots}
+    Una \textit{patrulla} consta de un robot aéreo y uno acuático.
+    Si queremos hacer una patrulla con un \textit{Apis IV} y un \textit{Myxini II}\dots
+
+    \bigskip
+    
+    \begin{itemize}
+        \item ¿Cuántas placas de material necesitamos?
+        \item ¿Cuántas necesitaríamos si quisiéramos hacer un escuadrón con 3 patrullas?
+    \end{itemize}
+
+\end{frame}
+
+% What is control flow
+% why is it important
+% does it exist in math?
+% how to represent it
+% how to represent it in matlab
+% practical cases
+
+% \section*{Referencias}
+
+% \begin{frame}[t]{Referencias}
+    % \nocite{bibID01}
+    % \nocite{bibID02}
+
+    % \bibliographystyle{IEEE}
+    % \bibliography{biblio}
+% \end{frame}
+
+\end{document}
