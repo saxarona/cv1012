@@ -1,0 +1,135 @@
+\documentclass[]{article}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage[spanish, mexico]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{helvet}
+\usepackage[framed]{matlab-prettifier}
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-pyglike]!#1!}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{sol}{Solution}
+\newtheorem{prop}{Proposition}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+\newcommand{\markthis}[1]{{\color{blue}\textbf{#1}}}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\setlength{\itemsep}{0.45in}
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+\begin{center}
+{\huge Aplicación de Métodos Numéricos al Ambiente Construido (TC1017)}\\[1.5ex]
+{\large \textbf{Situación Problema 1: Diseño de la sección transversal de un canal}\\[1.5ex] %You should put your name here
+30.04.20} %You should write the date here.
+\end{center}
+
+\vspace{0.2 cm}
+
+{%
+\small
+Este proyecto es \textbf{en equipos}, y consiste en generar \textbf{una memoria de cálculo} sobre la Situación Problema 1 (que puedes revisar en Canvas), además de un reporte \textbf{individual} sobre los resultados y aprendizajes personales.
+}
+
+\bigskip
+
+\section{¿Qué debe llevar nuestra Memoria de Cálculo?}
+
+Una memoria de cálculo es un documento donde se muestra a detalle el proceso y los cálculos hechos para obtener la respuesta a algún problema o resolución de algún diseño.
+
+\bigskip
+
+En general, una memoria de cálculo debe contener lo siguiente:
+
+\begin{itemize}
+    \item \textbf{Planteamiento del problema}: en donde se detalle la evaluación de la relevancia de las etapas del proceso. Debe reflejar una estructura científica para abordar el problema a resolver. Las características y factores a tomar en cuenta deben determinarse para cada una de las etapas de la situación problema.
+    \item \textbf{Objetivo del proyecto}: se formula de manera clara, detallando tanto una acción a realizar, como una evidencia para evaluar el cumplimiento del mismo objetivo. Aquí es buena idea describir cómo se conectan las \textbf{competencias} con el problema, y cómo podrían auto-evaluarlas ustedes mismos.
+    \item \textbf{Ejecución de la parte numérica}: se presentan detalladamente cada uno de los cálculos y sus resultados, de manera numérica y con alguna forma de visualización.
+    \item \textbf{Conclusión}: un resumen de \textbf{solamente} lo incluido en el documento, sin agregar información adicional.
+    \item \textbf{Bibliografía}: Una lista de fuentes confiables y recursos consultados para la generación del documento, usando un formato estándar (APA, MLA, IEEE, ACM, etc.)
+\end{itemize}
+
+Recuerden que éste no es un trabajo de investigación, sino el detalle de todo lo realizado para resolver un problema de análisis numérico.
+No hay extensión mínima ni extensión límite; sólo incluyan lo necesario para poder cumplir con lo que se pide.
+
+\pagebreak
+
+\section{¿Qué debo incluir en mi evidencia individual?}
+
+La evidencia individual traerá algunos elementos del reporte por equipo, pero tiene algunos requisitos específicos:
+
+\begin{itemize}
+    \item \textbf{Análisis del problema} (10 \%): un párrafo breve donde detalles cuál fue el problema y cómo se resolvió.
+    \item \textbf{Investigación sobre la ecuación de Manning} (30 \%): MUY BREVE. Una cuartilla \textbf{a lo mucho}, donde expliques \textbf{con tus propias palabras} a qué hace referencia la ecuación y cada uno de sus componentes. No olvides citar adecuadamente tus fuentes.
+    \item \textbf{Práctica}: contesta brevemente \textbf{por qué escogieron el método que están usando} (10 \%), \textbf{explica el algoritmo del método}---o sea, cuáles son los pasos a seguir--- (20\%) y muestra \textbf{una corrida del programa} y los resultados finales (20 \%).
+    \item \textbf{Reflexión y bibliografía} (10\%): presenta un resumen de los retos y aprendizajes obtenidos de la situación problema. Cita adecuadamente tus referencias usando un formato estándar.
+\end{itemize}
+
+Sé muy claro y al punto; no eches rollo. Se espera que la evidencia individual sea \textbf{a lo mucho} de 3 cuartillas.
+
+\end{document}
