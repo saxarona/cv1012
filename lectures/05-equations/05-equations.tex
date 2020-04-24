@@ -1,0 +1,643 @@
+\documentclass[spanish, c]{beamer}
+
+\usepackage[utf8]{inputenc}
+%\usepackage[spanish, mexico]{babel}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{ragged2e}
+\usepackage{mathrsfs}
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage[scaled]{beramono}
+\usepackage[T1]{fontenc}
+\usepackage{matlab-prettifier}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\renewcommand{\indent}{\hspace*{2em}}
+
+% \usepackage{tikz}
+
+% \usetikzlibrary{fit, shapes, arrows}
+
+% \usepackage{courier}
+% \usepackage{subfigure}
+% \usepackage{enumerate}
+% \usepackage{algorithmic}
+% \usepackage{algorithm}
+
+% \usepackage{listings}
+% \usepackage{lstlinebgrd}
+
+\usetheme{Boadilla}
+\usefonttheme[onlymath]{serif}
+
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-editor]!#1!}
+\newcommand\blfootnote[1]{%
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}%
+\addtocounter{footnote}{-1}%
+\endgroup
+}
+
+\lstset
+{
+    language = Matlab,
+    style = Matlab-editor,
+    basicstyle = \mlttfamily\scriptsize,
+    escapechar = `,
+    numbers = left,
+    frame = tb,
+}
+
+\lstdefinestyle{output}
+{
+    language = {},
+    basicstyle = \mlttfamily\scriptsize,
+    escapechar = `,
+    numbers = none,
+    showtabs = false,
+   	showstringspaces = false,
+}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+% Sets the templates
+\definecolor{navyblue}{RGB}{0, 0, 128}
+\definecolor{crimson}{RGB}{128, 16, 0}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true]
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{theorems}[numbered]
+
+\setbeamercolor{title}{fg=navyblue, bg=white}
+\setbeamercolor{frametitle}{fg=navyblue, bg=white}
+\setbeamercolor{structure}{fg=navyblue}
+\setbeamercolor{button}{fg=white,bg=navyblue}
+
+\setbeamercovered{transparent}
+
+\title{Ecuaciones, propiedades y eliminación}
+\subtitle{Aplicación de Métodos Numéricos al Ambiente Construido \\ (CV1012)}
+\author{
+    \texorpdfstring{
+        \begin{center}
+            M.C. Xavier Sánchez Díaz \\
+            \href{mailto:sax@tec.mx}{\texttt{sax@tec.mx}}
+        \end{center}
+    }
+    {M.C. Xavier Sánchez Díaz}
+}
+
+\institute[Tecnológico de Monterrey]{\includegraphics[scale=0.5]{../img/logo}}
+\date{}
+
+\begin{document}
+
+\setlength{\rightskip}{0pt}
+
+\begin{frame}[plain]
+    \titlepage        
+\end{frame}
+
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+\section{¿Ecuaciones y matrices?}
+
+\begin{frame}{Ensamblando Robots}{¿Ecuaciones y matrices?}
+
+    \textit{IntelliCorp} produce dos tipos de procesadores, el \texttt{x230} y el \texttt{x260} para sus robots.
+    
+    Para poder fabricarlos, se necesitan \textbf{silicio}, \textbf{cobre} y \textbf{aluminio}.
+
+    El \texttt{x230} usa 4, 3 y 5 láminas, respectivamente, mientras que el \texttt{x260} usa 5, 2 y 6 placas.
+
+    \begin{center}
+        \begin{table}[H]
+            \begin{tabular}{@{}ccc@{}}
+            \toprule
+                                    & x230 & x260 \\ \midrule
+            \multicolumn{1}{c|}{Si} & 4    & 5    \\
+            \multicolumn{1}{c|}{Cu} & 3    & 2    \\
+            \multicolumn{1}{c|}{Al} & 5    & 6    \\ \bottomrule
+            \end{tabular}
+        \end{table}
+    \end{center}
+\end{frame}
+
+\begin{frame}{¿Qué tiene más sentido?}{¿Ecuaciones y matrices?}
+
+    ¿Que cada placa se haga con distintos procesadores?
+
+    \begin{align*}
+        S & = 4x_1 + 5 x_2 \\
+        C & = 3x_1 + 2 x_2 \\
+        A & = 5x_1 + 6 x_2
+    \end{align*} \pause
+
+    \bigskip
+
+    ¿Que cada procesador se haga con distintas placas?
+    
+    \begin{align*}
+        x_{230} & = 4s + 3c + 5a \\
+        x_{260} & = 5s + 2c + 6s
+    \end{align*}
+
+\end{frame}
+
+\begin{frame}{Transpuesta}{¿Ecuaciones y matrices?}
+    Para que tenga más sentido, podemos \alert{transponer} la matriz.
+    Para eso, reescribiremos las \textbf{columnas} de la matriz \textbf{como renglones} y los \textbf{renglones como columnas}:
+
+    \[A = 
+        \begin{bmatrix*}
+            4 & 5 \\
+            3 & 2 \\
+            5 & 6
+        \end{bmatrix*}
+    \]
+
+    \bigskip
+
+    \[A^T = 
+        \begin{bmatrix*}
+            4 & 3 & 5 \\
+            5 & 2 & 6
+        \end{bmatrix*}
+    \]
+
+\end{frame}
+
+\begin{frame}{De las operaciones al álgebra}{¿Ecuaciones y matrices?}
+
+    Desde ahora, nuestra $A^T$ será $C= \begin{bmatrix*}
+        4 & 3 & 5 \\
+        5 & 2 & 6
+    \end{bmatrix*}$
+
+    \bigskip
+
+    ¿Cuántas placas necesitaríamos para hacer 3 procesadores de cada tipo? \pause
+
+    \bigskip
+
+    \[
+        3C = 3 \begin{bmatrix*}
+        4 & 3 & 5 \\
+        5 & 2 & 6
+    \end{bmatrix*} = \begin{bmatrix*}
+    12 & 9 & 15 \\
+    15 & 6 & 18
+\end{bmatrix*} \blacksquare
+    \]    
+\end{frame}
+
+\begin{frame}{De las operaciones al álgebra}{¿Ecuaciones y matrices?}
+
+    Si la nueva tecnología antiestática utiliza 1 placa adicional de cada material para el \texttt{x230}, y 2 placas de silicio, 1 de cobre y 1 de aluminio adicionales para el \texttt{x260}, ¿cuántas placas necesitaré de ahora en adelante si ahora todos mis procesadores incluirán tecnología antiestática?
+
+    \bigskip \pause
+
+    Primero, ¿cómo es la matriz de costos de la tecnología antiestática? \pause
+    
+    $$S = \begin{bmatrix*}
+        1 & 1 & 1 \\
+        2 & 1 & 1
+    \end{bmatrix*}$$
+
+    \bigskip \pause
+
+    El nuevo costo entonces es \bigskip
+
+    \[%
+        C + S =%
+        \begin{bmatrix*}
+            4 & 3 & 5 \\
+            5 & 2 & 6
+        \end{bmatrix*}
+        %
+        +
+        %
+        \begin{bmatrix*}
+            1 & 1 & 1 \\
+            2 & 1 & 1
+        \end{bmatrix*}
+        %
+        =
+        %
+        \begin{bmatrix*}
+            5 & 4 & 6 \\
+            7 & 3 & 7
+        \end{bmatrix*} \blacksquare
+    \]
+\end{frame}
+
+\begin{frame}{De las operaciones al álgebra}{¿Ecuaciones y matrices?}
+    Nuestra nueva $C$ es ahora
+    $C = \begin{bmatrix*}
+        5 & 4 & 6 \\
+        7 & 3 & 7
+    \end{bmatrix*}$.
+    Si sabemos que cada placa de silicio cuesta \$4, cada placa de cobre \$2 y cada placa de aluminio \$3, ¿Cuál es el precio total de cada procesador en \$? \pause
+
+    \bigskip
+
+    Nuestro vector de precios es $\mathbf{p} = [4, 2, 3]^T$ así que\dots \pause
+
+    \bigskip
+
+    \begin{align*}
+        C\mathbf{p} =
+        \begin{bmatrix*}
+            5 & 4 & 6 \\
+            7 & 3 & 7
+        \end{bmatrix*}
+        \begin{bmatrix*}
+            4 \\ 2 \\ 3    
+        \end{bmatrix*} & = 4 \begin{pmatrix*} 5 \\ 7 \end{pmatrix*} + 2 \begin{pmatrix*} 4 \\ 3 \end{pmatrix*} + 3 \begin{pmatrix*} 6 \\ 7 \end{pmatrix*} \\
+        & = \begin{bmatrix*} 20 + 8 + 18 \\ 28 + 6 + 21 \end{bmatrix*} \\
+        & = \begin{bmatrix*} 46 \\ 55 \end{bmatrix*} \blacksquare
+    \end{align*}
+
+\end{frame}
+
+\begin{frame}{De las operaciones al álgebra}{¿Ecuaciones y matrices?}
+    Ya sabemos el precio de cada procesador. Ahora queremos saber la resistencia eléctrica de cada uno, así como también su peso. \pause
+
+    La matriz que contiene esta información (la columna de resistencias y la columna de pesos, por cada material) es
+    $D = \begin{bmatrix*}
+        3 & 2 \\
+        1 & 4 \\
+        2 & 3
+    \end{bmatrix*}$
+
+    \bigskip
+    
+    ¿Puedo hacer la multiplicación de siempre? ¿Qué matriz obtendré? \pause
+
+    \[
+        CD = \begin{bmatrix*}
+            31 & 44 \\
+            38 & 47
+        \end{bmatrix*}
+    \]
+
+    Que es la matriz de resistencia y peso (heredados de $D$) de los procesadores (heredados de $C$).
+\end{frame}
+
+\begin{frame}{De las operaciones al álgebra}{¿Ecuaciones y matrices?}
+    Volvamos a transponer nuestra matriz para poder manejar pedidos \\
+    (materiales~$\times$~procesador y procesadores~$\times$~pedido para obtener\\
+    materiales $\times$ pedidos):
+    $C = C^T = 
+    \begin{bmatrix}
+        5 & 7 \\
+        4 & 3 \\
+        6 & 7
+    \end{bmatrix}$
+    
+    \bigskip
+
+    Y asumamos que nos hacen un pedido de 3 procesadores \texttt{x230} y 3 procesadores \texttt{x260}.
+    ¿Cuánto material necesito? \pause
+
+    \begin{itemize}[<+->]
+        \item ¿Cuál es el vector que representa un pedido de 2 y 0 \texttt{x230} y \texttt{x260} respectivamente?
+        \item ¿Y si nuestro pedido fuera de 2 y 2?
+        \item ¿Y si fuera de 2 y 3?
+        \item ¿Y si mi pedido fuera de 1 y 1?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Matriz escalar}{¿Ecuaciones y matrices?}
+    Una \alert{matriz escalar} es una matriz que sólo tiene \textbf{escalares} en la \textbf{diagonal}. Sirven para \textit{escalar} una matriz: cada una de las columnas por un \textit{cierto} factor. \pause
+
+    \bigskip
+
+    ¿Cuál es el resultado de la siguiente operación? \bigskip
+
+    \[
+        \begin{bmatrix}
+            \color{red} 5 & \color{blue} 7 \\
+            \color{red} 4 & \color{blue} 3 \\
+            \color{red} 6 & \color{blue} 7
+        \end{bmatrix}
+        \begin{bmatrix*}
+            \color{red} 2 & 0 \\
+            0 & \color{blue} 3
+        \end{bmatrix*} = \pause
+        \begin{bmatrix*}
+            \color{red} 10 & \color{blue} 21 \\
+            \color{red} 8 & \color{blue} 9 \\
+            \color{red} 12 & \color{blue} 21
+        \end{bmatrix*}
+    \]
+\end{frame}
+
+\begin{frame}{Matriz identidad}{Ecuaciones y matrices}
+    De las matrices \textbf{escalares}, aquella que al multiplicarla por cualquier matriz $A$ hace que se cumpla \textit{la identidad multiplicativa}, dando como resultado $A$, se le conoce como \alert{matriz identidad}. \pause
+
+    \bigskip
+
+    \[
+        \begin{bmatrix*}
+            10 & 21 \\
+            8 & 9 \\
+            12 & 21
+        \end{bmatrix*}
+        \begin{bmatrix*}
+            1 & 0  \\
+            0 & 1
+        \end{bmatrix*} = \begin{bmatrix*}
+            10 & 21 \\
+            8 & 9 \\
+            12 & 21
+        \end{bmatrix*}
+    \] \pause
+
+    \bigskip
+
+    Es decir, una \textbf{matriz escalar} con 1 en la diagonal y 0 en el resto de las posiciones. Para representarla usamos la letra $I$, de $I$\textit{dentity}. \pause
+
+    \bigskip
+
+    ¿Cuáles serán las dimensiones de una \alert{matriz identidad} que queremos multiplicar por una matriz de $4 \times 3$?
+\end{frame}
+
+\section{Ecuaciones y matrices}
+
+\begin{frame}{Álgebra de matrices}{Ecuaciones y matrices}
+
+    Asumamos que tenemos $AX = B$, donde tanto $A$ como $B$ y $X$ son matrices. ¿Cómo hacemos para despejar la matriz $X$?
+
+    \bigskip
+
+    \dots {\scriptsize (no, no es dividiendo. Recordemos que $AB$ no es lo mismo que $BA$)}
+
+    \bigskip
+
+    Si la multiplicación de matrices es una \textit{transformación lineal} que aplicamos a otra matriz\dots debe existir algo que la revierta, ¿no? \dots
+
+    \bigskip
+
+    \dots Sí, pero no siempre.
+
+\end{frame}
+
+\begin{frame}{Ecuaciones lineales}{Ecuaciones y matrices}
+    Una \alert{ecuación} es \textbf{una igualdad matemática}. En este curso nos enfocaremos en aquellas igualdades que son \textbf{lineales}, es decir que todas sus \textbf{variables} son de \textit{grado 1} (o con exponente 1). \pause
+
+    \bigskip
+
+    \[3x + 2y + 4z = 250\] \pause
+
+    Una ecuación es una manera muy conveniente de expresar, por ejemplo, que 3 $cocas$, 2 $burgers$ y 4 $papas$ salen \$250. \pause
+
+    Si vamos en repetidas ocasiones (y los precios no cambian), podríamos generar más ecuaciones, dependiendo de los pedidos que hagamos, por ejemplo $2x + 2y + 2z = 190$.
+\end{frame}
+
+\begin{frame}{Disectando una ecuación}{Ecuaciones y matrices}
+
+    \[\alert<4>{3}\alert<3>{x} + \alert<4>{2}\alert<3>{y} + \alert<4>{4}\alert<3>{z} = \alert<5>{250}\] \pause
+
+    \begin{itemize}[<+->]
+        \item \alert<3>{Variables} o \textbf{incógnitas}
+        \item \alert<4>{Coeficientes}
+        \item \alert<5>{Término constante}
+    \end{itemize} \pause
+
+    Si la reescribimos con el término constante del lado izquierdo, podemos obtener:
+
+    \[3x + 2y + 4z -250 = 0\]
+
+    que se conoce como \textbf{ecuación homogénea}.  
+\end{frame}
+
+\begin{frame}{Matrices para ecuaciones}{Ecuaciones y matrices}
+
+    Podemos usar matrices para representar un \alert{sistema de ecuaciones lineales}, que son múltiples ecuaciones \textbf{simultáneas}: \pause
+
+    \begin{align*}
+        & 3x + 2y + 4z = 270 \\
+        & 2x + 2y + 2z = 200 \\
+        & 4x + 4y + 3z = 375
+    \end{align*} \pause
+
+    Podemos hacer una matriz con los coeficientes, y un vector con los resultados, para luego unirlos en una \alert{matriz aumentada}. Si 
+
+    \[
+        C = \begin{bmatrix*}
+            3 & 2 & 4 \\
+            2 & 2 & 2 \\
+            4 & 4 & 3
+        \end{bmatrix*} \text{ y }
+        \mathbf{r} =
+        \begin{bmatrix*}
+            270 \\ 200 \\ 375
+        \end{bmatrix*} \quad \text{entonces} \quad
+        M = \begin{bmatrix}[ccc|c]
+            3 & 2 & 4 & 270 \\
+            2 & 2 & 2 & 200 \\
+            4 & 4 & 3 & 375
+        \end{bmatrix}    
+    \]   
+
+\end{frame}
+
+\begin{frame}{Resolviendo sistemas de ecuaciones}{Ecuaciones y matrices}
+    Vamos a \alert{resolver} \textbf{el sistema} para encontrar cuánto valen $x, y$ y $z$.
+    Para eso, sólo podemos usar las siguientes \alert{operaciones por renglón}: \pause
+
+    \bigskip
+
+    \begin{enumerate}[<+->]
+        \item Intercambiar renglones de lugar: $$R_1 \leftrightarrow R_2$$
+        \item Escalar renglones (multiplicando por escalar): $$R_1 \leftarrow cR_1$$
+        \item A un renglón existente, sumarle o restarle otro renglón escalado: $$R_1 \leftarrow R_1 - cR_2$$
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Aplicando las reglas de manera ordenada}{Ecuaciones y matrices}
+    El \textbf{algoritmo de} \alert{eliminación Gaussiana} resuelve ecuaciones lineales de la siguiente forma:
+
+    \begin{enumerate}
+        \item Prepare la matriz (ordene los renglones para tener el $a_{11}$ distinto de 0)
+        \item Obtenga 0s debajo de $a_{11}$ usando las reglas anteriores.
+        \item Olvídese de la columna 1 y fila 1. Pase al $a_{22}$ y \textbf{repita} desde el paso 1 \textbf{hasta} que tenga una \alert{matriz escalonada}.
+        \item Obtenga 0s arriba de $a_{mn}$ usando las reglas anteriores.
+        \item Olvídese de la columna $m$ y la fila $n$. Pase al $a_{m-1n-1}$ y repita desde el paso 4 y hasta que consiga la \textbf{matriz identidad}.
+        \item Usted ha terminado.
+    \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Eliminación Gaussiana}{Ecuaciones y Matrices}
+
+    \begin{align*}
+        M =
+    & \begin{bmatrix}[ccc|c]
+        3 & 2 & 4 & 270 \\
+        2 & 2 & 2 & 200 \\
+        4 & 4 & 3 & 375
+    \end{bmatrix}
+    & \hfill R_2 \gets \frac{R_2}{2}, R_1 \longleftrightarrow R_2 \\
+    = & \begin{bmatrix}[ccc|c]
+        1 & 1 & 1 & 100 \\
+        3 & 2 & 4 & 270 \\
+        4 & 4 & 3 & 375
+    \end{bmatrix}
+    & R_2 \gets R_2 - 3R_1, R_3 \gets R_3 - 4R_1 \\
+    = & \begin{bmatrix}[ccc|c]
+        1 & 1 & 1 & 100 \\
+        0 & -1 & 1 & -30 \\
+        0 & 0 & -1 & -25
+    \end{bmatrix}
+    & R_2 \gets (-1)R_2, R_3 \gets (-1)R_3 \\
+    = & \begin{bmatrix}[ccc|c]
+        1 & 1 & 1 & 100 \\
+        0 & 1 & -1 & 30 \\
+        0 & 0 & 1 & 25
+    \end{bmatrix}
+    & \text{Cont.} \longrightarrow
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Eliminación Gaussiana (Cont.)}{Ecuaciones y Matrices}
+    \begin{align*}
+        = & \begin{bmatrix}[ccc|c]
+            1 & 1 & 1 & 100 \\
+            0 & 1 & -1 & 30 \\
+            0 & 0 & 1 & 25
+        \end{bmatrix}
+        & R_2 \gets R_2 + R_3, R_1 \gets R_1 - R_3 \\
+        = & \begin{bmatrix}[ccc|c]
+            1 & 1 & 0 & 75 \\
+            0 & 1 & 0 & 55 \\
+            0 & 0 & 1 & 25
+        \end{bmatrix}
+        & R_1 \gets R_1 - R_2 \\
+        = & \begin{bmatrix}[ccc|c]
+            1 & 0 & 0 & 20 \\
+            0 & 1 & 0 & 55 \\
+            0 & 0 & 1 & 25
+        \end{bmatrix} \blacksquare
+    \end{align*}
+
+    Por tanto, podemos concluir que $coca = 20, burger = 55$ y $papas = 25 \quad \blacksquare$
+
+\end{frame}
+
+\begin{frame}{Matrices Invertibles}{Ecuaciones y Matrices}
+    Ahora que ya sabemos lo que es la \textbf{eliminación} y la \textbf{reducción}, podemos contestar la pregunta\dots ¿cómo revierto una multiplicación de matrices? \pause
+
+    \bigskip
+
+    Si $C$ es una matriz de $2 \times  2$, entonces si hacemos $C \times \begin{bmatrix*}
+        3 & 0 \\ 0 & 3
+    \end{bmatrix*}$ sabemos que obtendremos el triple de $C$. Esto \textit{podría} ser reversible. \pause
+
+    \bigskip
+
+    ¿Qué pasa si tenemos $C \times \begin{bmatrix*}
+        0 & 0 \\ 0 & 0
+    \end{bmatrix*}$? \pause
+
+    \bigskip
+
+    ¿Es esto reversible?
+
+\end{frame}
+
+\begin{frame}{Matriz Invertible}{Ecuaciones y Matrices}
+    Como vimos, hay matrices que no se pueden invertir (por ejemplo, la matriz cuadrada de puros 0s). A este tipo de matrices les llamamos \textit{singulares} o \textit{no invertibles}. \pause
+
+    \bigskip
+
+    Sin embargo, hay otras matrices \textbf{cuadradas} que sí podemos revertir. Si $A$ es una matriz cuadrada, es \alert{invertible} (o \textit{no singular}) siempre que cumpla la siguiente regla: \pause
+
+    \bigskip
+
+    \[AB = I \text{ y } BA = I\]
+
+    \bigskip
+
+    ¿A qué operación te recuerda esto?  
+
+\end{frame}
+
+\begin{frame}{Inversión de matrices}{Ecuaciones y matrices}
+
+    Digamos que $A = \begin{bmatrix*}
+        1 & 2 \\ 3 & -5
+    \end{bmatrix*}$, y estamos buscando una matriz $B$ \textbf{de las mismas dimensiones} de tal manera que $AB = I_{2 \times 2}$: \pause
+
+    \bigskip
+
+    \[
+        \begin{bmatrix*}
+            1 & 2 \\
+            3 & -5
+        \end{bmatrix*}
+        \begin{bmatrix*}
+            b_{11} & b_{12} \\
+            b_{21} & b_{22}
+        \end{bmatrix*} =
+        \begin{bmatrix*}
+            1 & 0 \\ 0 & 1
+        \end{bmatrix*}
+    \] \pause
+
+    \bigskip
+
+    ¿Cuáles son las ecuaciones que tenemos para cada una de las casillas en $I$?
+\end{frame}
+
+\begin{frame}{Inversión de matrices}{Ecuaciones y matrices}
+        \begin{align}
+            1 \cdot b_{11} - 2 \cdot b_{21} = 1 \\
+            3 \cdot b_{11} - 5 \cdot b_{21} = 0 \\
+            1 \cdot b_{12} - 2 \cdot b_{22} = 0 \\
+            3 \cdot b_{12} - 5 \cdot b_{22} = 1
+        \end{align} \pause
+
+        ¿Puedes resolver el sistema? \pause \quad \quad {\scriptsize(Spoiler alert: sí puedes)}
+
+        \bigskip
+
+        Si el sistema tiene solución, entonces las \textit{variables} serán usadas para construir una nueva matriz que es la \alert{inversa} de $A$.
+\end{frame}
+
+% Específicamente, la regla 3 puede verse como $R_i = R_i - \frac{a_{ik}}{a_{jk}}R_j$.
+
+% Los robots
+% why is it important
+% does it exist in math?
+% how to represent it
+% how to represent it in matlab
+% practical cases
+
+% \section*{Referencias}
+
+% \begin{frame}[t]{Referencias}
+    % \nocite{bibID01}
+    % \nocite{bibID02}
+
+    % \bibliographystyle{IEEE}
+    % \bibliography{biblio}
+% \end{frame}
+
+\end{document}
