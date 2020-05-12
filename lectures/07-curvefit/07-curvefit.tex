@@ -175,8 +175,90 @@
         \includegraphics[width=0.62\textwidth]{regplot.pdf}
     \end{center}
     
-
 \end{frame}
+
+\section{Estadística descriptiva básica}
+
+\begin{frame}{Nuestras herramientas}{Estadística descriptiva básica}
+
+Para poder generalizar a partir de una \alert{muestra} de datos, necesitamos saber \textit{más o menos} cómo se comportan. \pause
+
+\bigskip
+
+En este caso, podemos calcular a partir de nuestra \textbf{muestra} algunas \alert{estadísticas} que nos ayuden a comprender este comportamiento. \pause
+
+\begin{itemize}[<+->]
+    \item ¿Cuántos datos tenemos?
+    \item ¿Cuál es el máximo valor? ¿Cuál es el mínimo?
+    \item ¿Qué tan separados están los datos?
+    \item ¿Alrededor de qué valor se concentra la mayoría de los datos?
+    \item ¿Cuál es el dato más común?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Media aritmética}{Estadística descriptiva básica}
+    La \alert{media aritmética} (mejor conocida como \textbf{promedio}) es una excelente manera de obtener información inmediata sobre el comportamiento \textit{promedio} (duh) de nuestra muestra:
+
+    \bigskip
+
+    \begin{block}{Media}
+        $$\bar{y} = \frac{\sum y_i}{n}$$
+    \end{block}
+
+    \bigskip
+
+    donde $n$ es el \alert{tamaño de la muestra} (o sea, cuántos datos tenemos), y $y_i$ es el $i$-ésimo elemento en nuestra muestra.
+\end{frame}
+
+\begin{frame}{Mediana}{Estadística descriptiva básica}
+    Otra medida de centralidad importante es la \alert{mediana}, que es el valor de \textbf{en medio} de los datos \textbf{cuando están ordenados}. \pause
+
+    \bigskip
+
+    Es importante recalcar que \textbf{la media} y \textbf{la mediana} \alert{no son lo mismo}, aunque \textbf{a veces pueden ser idénticas}. \pause
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \itemsep2ex
+        \item \textit{El sueldo promedio del mexicano} hace referencia a la \alert{media} de los sueldos: sumas todos los sueldos y los divides entre los entrevistados para saber \textit{lo que esperas que gane un mexicano comúnmente}.
+        \item \textit{El sueldo del mexicano promedio} hace referencia a la \alert{mediana} de los sueldos: ordenas todos los sueldos, y tomas el de en medio para saber \textit{lo que esperas que gane un mexicano de clase media}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Moda}{Estadística descriptiva básica}
+    Otra medida comúnmente empleada es la \alert{moda}, que viene a ser el dato que \textbf{más se repite} en la \textbf{muestra}. \pause
+
+    \bigskip
+
+    Siguiendo con nuestro ejemplo anterior, la \textbf{moda} vendría a representar \textit{lo que gana la mayoría de los mexicanos}.
+\end{frame}
+
+\begin{frame}{Midiendo la dispersión}{Estadística descriptiva básica}
+    La \alert{desviación estándar} es la medida de \textit{dispersión} más común:
+
+    \begin{block}{Desviación estándar}
+        $$S_y = \sqrt{\frac{S_t}{n-1}}$$
+    \end{block}
+
+    donde $S_t$ es la \alert{suma total de los cuadrados de los residuales} entre los cada dato y la media:
+
+    $$S_t = \sum (y_i - \bar{y})^2$$
+
+    Otra medida de dispersión muy utilizada es la \alert{varianza}, que es igual \textbf{al cuadrado de la desviación estándar}.
+\end{frame}
+
+\begin{frame}{Ajuste de Curvas por Mínimos Cuadrados}
+\begin{center}
+    \Huge NotYetImplementedError
+\end{center}
+\end{frame}
+
+\begin{frame}{Interpolación}
+    \begin{center}
+        \Huge NotYetImplementedError
+    \end{center}
+    \end{frame}
 
 % Específicamente, la regla 3 puede verse como $R_i = R_i - \frac{a_{ik}}{a_{jk}}R_j$.
 
