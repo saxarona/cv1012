@@ -1,12 +1,12 @@
-\documentclass[spanish, c]{beamer}
+\documentclass[spanish, c, dvipsnames]{beamer}
 
 \usepackage[utf8]{inputenc}
 %\usepackage[spanish, mexico]{babel}
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{hyperref}
-\usepackage{xcolor}
 \usepackage{color}
+\usepackage{xcolor}
 \usepackage{ragged2e}
 \usepackage{mathrsfs}
 \usepackage{csquotes}
@@ -241,17 +241,100 @@ En este caso, podemos calcular a partir de nuestra \textbf{muestra} algunas \ale
         $$S_y = \sqrt{\frac{S_t}{n-1}}$$
     \end{block}
 
-    donde $S_t$ es la \alert{suma total de los cuadrados de los residuales} entre los cada dato y la media:
+    donde $S_t$ es la \alert{suma total de los cuadrados de los residuales} entre cada dato y la media:
 
     $$S_t = \sum (y_i - \bar{y})^2$$
 
     Otra medida de dispersión muy utilizada es la \alert{varianza}, que es igual \textbf{al cuadrado de la desviación estándar}.
 \end{frame}
 
-\begin{frame}{Ajuste de Curvas por Mínimos Cuadrados}
-\begin{center}
-    \Huge NotYetImplementedError
-\end{center}
+\section{Ajuste de curvas}
+
+\begin{frame}{Regresión lineal}{Ajuste de Curvas}
+    Como vimos anteriormente, queremos obtener información a partir de nuestras mediciones, para poder \textbf{generar} un \alert{modelo matemático} (o sea una función).
+
+    \bigskip
+
+    ¿Cuál es la manera más sencilla de unir dos puntos?
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{dots.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Regresión lineal}{Ajuste de Curvas}
+    
+    ¿Cómo se ve una línea recta si usamos dos puntos? \bigskip
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{reg01.pdf}
+    \end{center}    
+
+\end{frame}
+
+\begin{frame}{Regresión lineal}{Ajuste de Curvas}
+    
+    ¿Y si agregamos otra medición? \bigskip
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{reg02.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Regresión lineal}{Ajuste de Curvas}
+    
+    ¿Y si agregamos otra más? \bigskip
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{reg03.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Mínimos cuadrados}{Ajuste de curvas}
+    ¿Cómo sabemos si la línea que hicimos es la \textit{mejor} aproximación que tenemos para la tendencia? \pause
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \itemsep2.5ex
+        \item Podemos contar a cuántos puntos le atinamos y cuántos no
+        \item Podemos revisar por cuánto fallamos en cada punto y sumarlo
+        \item Podemos revisar por cuánto fallamos en cada punto y sacarle valor absoluto
+        \item \alert<6>{Podemos revisar por cuánto fallamos en cada punto, elevarlo al cuadrado, y sacar un promedio}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Mínimos cuadrados}{Ajuste de curvas}
+    Para obtener la ecuación de una recta necesitamos dos elementos:
+
+    $$y = {\color{blue} a_1} x + {\color{ForestGreen} a_0}$$
+
+    \begin{block}{Pendiente}
+        $$a_1 =  \frac{n \sum x_i y_i - \sum x_i \sum y_i}{n \sum x_i^2 - (\sum x_i)^2}$$
+    \end{block}
+
+    \begin{exampleblock}{Ordenada al origen}
+        $$a_0 = \bar{y} - a_1 \bar{x}$$
+    \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Calidad de la regresión}{Ajuste de Curvas}
+    
+    Para revisar la \textbf{calidad} de nuestra regresión, podemos usar una estadística llamada $r^2$.
+
+    \begin{block}{Calculando $r^2$}
+        $$r^2 = \frac{S_t - S_r}{S_t}$$
+    \end{block}
+
+    Donde $S_t$ es la suma de todos los cuadrados de los residuales con la media:
+    
+    $$S_t = \sum\limits_{i=1}^n (y_i - \bar{y})^2$$
+
+    y $S_r$ es la suma de todos los cuadrados de los residuales con nuestra regresión:
+
+    $$S_r = \sum\limits_{i=1}^n (y_i - a_0 - a_i x_i)^2$$
+    
 \end{frame}
 
 \begin{frame}{Interpolación}
