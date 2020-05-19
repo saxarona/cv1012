@@ -333,16 +333,155 @@ En este caso, podemos calcular a partir de nuestra \textbf{muestra} algunas \ale
 
     y $S_r$ es la suma de todos los cuadrados de los residuales con nuestra regresión:
 
-    $$S_r = \sum\limits_{i=1}^n (y_i - a_0 - a_i x_i)^2$$
+    $$S_r = \sum\limits_{i=1}^n (y_i - a_0 - a_1 x_i)^2$$
     
 \end{frame}
 
-\begin{frame}{Interpolación}
-    \begin{center}
-        \Huge NotYetImplementedError
-    \end{center}
-    \end{frame}
+\begin{frame}{Pendientes}{Interpolación}
+    ¿Cuántas pendientes tiene la siguiente \textsl{función}?
 
+    \bigskip
+
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{linear.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Pendientes}{Interpolación}
+    ¿Cuántas pendientes tiene la siguiente \textsl{función}?
+
+    \bigskip
+
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{quad.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Pendientes}{Interpolación}
+    ¿Cuántas pendientes tiene la siguiente \textsl{función}?
+
+    \bigskip
+
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{cubic.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Ajuste polinomial}{Interpolación}
+    
+    Como ya vimos, se puede ajustar una función que \textsl{aproxime} los puntos.
+    Sin embargo, también se pueden usar métodos para encontrar una función que pase \textbf{exactamente} por cada uno de ellos. \pause
+
+    \bigskip
+
+    \begin{itemize}[<+->]
+        \item Para unir $n$ puntos, siempre se existirá un \alert{polinomio} de \textbf{grado} $n-1$ que describa su comportamiento exacto
+        \item Calcular este polinomio para grados muy altos es computacionalmente \textbf{costoso}
+        \item Para grados muy altos, el \textbf{error} en los extremos tiende a ser mucho más grande
+    \end{itemize} \pause
+    
+    \begin{center}
+        \itshape
+        Story time:\\
+        Overfitting
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{El concepto de interpolación}{Interpolación}
+    
+    \alert{Interpolar} hace referencia a obtener puntos \textbf{intermedios} a partir de mediciones dadas:
+
+    \bigskip
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{center}
+                \begin{table}[H]
+                    \begin{tabular}{lr}
+                    \hline
+                    \textbf{t (s)} & \textbf{v (m/s)} \\ \hline
+                    0              & 0.00             \\
+                    2              & 16.42            \\
+                    4              & 27.8             \\
+                    6              & 35.68            \\
+                    8              & 41.14            \\
+                    10             & 44.92            \\
+                    12             & 47.54            \\
+                    $\infty$       & 53.44            \\ \hline
+                    \end{tabular}
+                \end{table}
+            \end{center}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=\columnwidth]{parachuter.pdf}
+        \end{column}
+    \end{columns}
+
+    \bigskip
+    ¿Cuál será la velocidad a los 5 segundos?
+\end{frame}
+
+\begin{frame}{Interpolación lineal}{Interpolación}
+
+    La \alert{interpolación lineal} (o clásica) consiste en unir entre puntos con líneas rectas.
+
+    \bigskip
+
+    \begin{center}
+        \includegraphics[width=0.65\textwidth]{inter01.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Interpolación con mínimos cuadrados}{Interpolación}
+
+    También podemos \alert{interpolar por mínimos cuadrados} linealmente, evaluando $f(5)$:
+
+    $$f(x) = 3.49107143 x + 8.93$$
+
+    \begin{center}
+        \includegraphics[width=0.65\textwidth]{inter02.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Interpolación con mínimos cuadrados}{Interpolación}
+
+    O con un polinomio de segundo grado:
+
+    $$f(x) = -0.244375 x^2 + 6.91232143 x + 2.0875$$
+
+    \begin{center}
+        \includegraphics[width=0.65\textwidth]{inter03.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Interpolación con mínimos cuadrados}{Interpolación}
+
+    O con un polinomio de grado 7 (que es terrible):
+    \begin{equation*}
+        \begin{split}
+            f(x) = 0.000006.23139881 x^7 -0.000261718750 x^6 + 0.00439322917 x^5 \\
+            -0.00384635417 x^4 + 0.0212750000 x^3 -1.23945833 x^2 \\
+            + 10.0833095 x -0.0000000000003.01457752
+        \end{split}
+    \end{equation*}
+
+    \begin{center}
+        \includegraphics[width=0.59\textwidth]{inter04.pdf}
+    \end{center}
+
+\end{frame}
+
+
+%deg 1
+% 
+% 
+% 0.000006.23139881 x^7 -0.000261718750 x^6 + 0.00439322917 x^5 -0.00384635417 x^4 + 0.0212750000 x^3 -1.23945833 x^2 + 10.0833095 x -0.0000000000003.01457752
 % Específicamente, la regla 3 puede verse como $R_i = R_i - \frac{a_{ik}}{a_{jk}}R_j$.
 
 % Los robots
