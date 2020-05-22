@@ -1,0 +1,147 @@
+\documentclass[]{book}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+\usepackage[spanish, mexico]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{helvet}
+\usepackage[framed]{matlab-prettifier}
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-pyglike]!#1!}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{sol}{Solution}
+\newtheorem{prop}{Proposition}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+% \setlength{\itemsep}{0.45in}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+\begin{center}
+{\huge Aplicación de Métodos Numéricos al Ambiente Construido (CV1012)}\\[1.5ex]
+{\large \textbf{Tarea 02}\\[1.5ex] %You should put your name here
+15.05.20} %You should write the date here.
+\end{center}
+
+\vspace{0.2 cm}
+
+Esta actividad es en \textdf{parejas}. Lee las instrucciones y sube un archivo comprimido que tenga:
+\begin{itemize}
+    \item Los archivos necesarios para realizar los cálculos usando las fórmulas de clase (MATLAB)
+    \item Un PDF \textdf{muy breve} con las respuestas al set de ejercicios y una gráfica de cada una de las funciones.
+\end{itemize}
+
+\section*{Regresión lineal y mínimos cuadrados}
+
+\begin{enumerate}%[label=\alph*)]
+    \itemsep7ex
+    \item Usa regresión lineal por mínimos cuadrados para aproximar una línea recta que determine el comportamiento de la tabla siguiente:
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular}{c|cccccccccc}
+        $x$ & 0 & 2 & 4 & 6 & 9 & 11 & 12 & 15 & 17 & 19 \\ \hline
+        $y$ & 5 & 6 & 7 & 6 & 9 & 8  & 7  & 10 & 12 & 12
+        \end{tabular}
+    \end{table}
+    Y contesta lo siguiente:
+    \begin{enumerate}
+        \item ¿Cuántos datos tiene la muestra?
+        \item ¿Cuál es la media de la muestra?
+        \item ¿Cuál es la ecuación de la recta que aproxima el comportamiento de estos datos?
+        \item ¿Cuál es la $R^2$ de esta regresión?
+        \item Genera un gráfico en MATLAB donde se aprecien los puntos de tu muestra, una recta marcando la media, y la recta de la regresión
+    \end{enumerate}
+    \item Usa regresión lineal por mínimos cuadrados para aproximar una línea recta que determine el comportamiento de la tabla siguiente:
+    \begin{table}[htbp]
+        \centering
+        \begin{tabular}{c|ccccccccccc}
+        $x$ & 6  & 7  & 11 & 15 & 17 & 21 & 23 & 29 & 29 & 37 & 39 \\ \hline
+        $y$ & 29 & 21 & 29 & 14 & 21 & 15 & 7  & 7  & 13 & 0  & 3 
+        \end{tabular}
+    \end{table}
+    Y contesta lo siguiente:
+    \begin{enumerate}
+        \item ¿Cuál es la media de la muestra?
+        \item ¿Cuál es la desviación estándar de la muestra?
+        \item ¿Cuál es la ecuación de la recta que aproxima el comportamiento de estos datos?
+        \item ¿Cuál es la $R^2$ de esta regresión?
+        \item Si alguien hiciera una medición de $x=10, y=10$, ¿Pensarías que es una medición válida o que hubo un error en la medición? Justifica tu respuesta.
+        \item ¿Cuál sería la medición para $x=18$ y para $x=30$?
+        \item Genera un gráfico en MATLAB donde se aprecien los puntos de tu muestra, una recta marcando la media, y la recta de la regresión
+    \end{enumerate}
+\end{enumerate}
+
+\pagebreak
+
+{\Large Recomendaciones:}
+\begin{itemize}
+    \item Si lo creen necesario, hagan un diagrama de flujo que los ayude a guiarse en el proceso
+    \item Asegúrense de estar corriendo el MATLAB en el mismo lugar donde guardaron sus archivos
+    \item Asegúrense de que su archivo tiene nombre en minúsculas, sin espacios ni acentos o símbolos
+    \item No se olviden de \textbf{documentar su función} e incluir sus nombres y matrículas
+\end{itemize}
+\end{document}

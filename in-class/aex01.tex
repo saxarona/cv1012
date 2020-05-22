@@ -1,0 +1,150 @@
+\documentclass[spanish, 10pt]{article}
+
+\usepackage[table, xcdraw]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, mexico]{babel}
+\usepackage{helvet}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[margin = 3 cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\usepackage{matlab-prettifier}
+\usepackage{multicol}
+
+\usetikzlibrary{arrows, shapes, trees, calc, decorations.pathreplacing, shapes.misc, positioning, automata}
+
+\setlength\parindent{0pt}
+
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand{\responserule}{{\large\rule{14 cm}{0.3mm}}}
+\newcommand{\shortresponserule}{{\large\rule{5 cm}{0.3mm}}}
+\newcommand{\veryshortresponserule}{{\large\rule{3 cm}{0.3mm}}}
+\newcommand{\matlab}[1]{\lstinline[style=Matlab-pyglike]!#1!}
+
+
+% Specifications for listing package
+% \lstset{	
+%     basicstyle = \scriptsize\ttfamily,
+%     keywordstyle = \color{blue}\ttfamily,
+%     stringstyle = \color{red}\ttfamily,
+%    	commentstyle = \color{gray}\ttfamily,
+%    	tabsize = 3,
+%    	breaklines = true,
+%    	stepnumber = 1,
+%    	showtabs = false,
+%    	showstringspaces = false,
+%    	frame = none
+% }
+
+% Commands for true/false questions
+% ----------------------------------------------------------------
+\newcommand{\question}[1]{%
+	\noindent
+	\begin{minipage}[t]{0.15\linewidth}
+	\centering		
+		\textbf{[\hspace{1 cm}]}
+	\end{minipage}%
+	\begin{minipage}[t]{0.85\linewidth}
+		#1
+	\end{minipage}
+	\smallskip
+}
+% ----------------------------------------------------------------
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\begin{center}
+	{\Large \textbf{Aplicación de Métodos Numéricos al Ambiente Construido (CV1012)}}
+	
+	\bigskip
+	{\large \textbf{Actividad EX 01 -- Gráficas en MATLAB (+1)}}
+\end{center}
+
+\bigskip
+{\large \textbf{Nombre}: \rule{13.7 cm}{0.4mm}}
+
+% \bigskip
+% {\large \textbf{Matrícula}: \rule{5 cm}{0.4mm}}
+
+% \bigskip
+% {\large \textbf{Name}: \rule{14 cm}{0.4mm}}
+
+\bigskip
+{\large \textbf{Matrícula}: \rule{5 cm}{0.4mm}} \hfill {\large \textbf{Fecha}: \today}
+
+% {\footnotesize Nota: esta actividad es de mayor dificultad a las que hemos visto anteriormente y probablemente haya dudas.
+% Si hay algo que no entiendas, no te quedes sin preguntar.}
+
+\section*{Comandos útiles de la sesión}
+
+{\small \slshape Esta actividad sólo se calificará como entregada o no entregada.
+Es para que puedas identificar fácilmente cómo hacer gráficas y cómo manipularlas en MATLAB.}
+
+\bigskip
+
+\matlab{plot(x)} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{plot(x, y)} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{plot(x,y,'r--')} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{plot(x,y,'bd', 'MarkerSize', 5)} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{hold} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{legend} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{legend('Weight', 'Height')} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{xlabel('Day')} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{ylabel('Degs')} \hfill \\[1.25ex]
+\responserule
+
+\bigskip
+
+\matlab{xlim([-10, 10])} \hfill \\[1.25ex]
+\responserule
+\bigskip
+
+\matlab{ylim([0, 8])} \hfill \\[1.25ex]
+\responserule
+
+% \vfill
+
+% \textbf{Apegándome al Código de Ética de los Estudiantes del Tecnológico de Monterrey, me comprometo a que mi actuación en esta actividad esté regida por la honestidad académica.}
+
+\end{document}
