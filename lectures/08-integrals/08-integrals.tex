@@ -48,6 +48,7 @@
 
 \newcommand{\contrastA}[1]{{\color{red} #1}}
 \newcommand{\contrastB}[1]{{\color{blue} #1}}
+\newcommand{\contrastC}[1]{{\color{ForestGreen} #1}}
 
 \lstset
 {
@@ -418,20 +419,203 @@ donde $\xi$ es un valor dentro del intervalo entre $a$ y $b$, y $f^{(4)}$ es la 
 donde $\bar{f}^{(4)}$ es la cuarta derivada promedio del intervalo $[a, b]$.
 \end{frame}
 
+
+\section{Cuadratura de Gauss}
+
+\begin{frame}{Segmentos promedio}{Cuadratura de Gauss}
+    Tanto la \textbf{regla del trapecio} como la \textbf{regla de Simpson 1/3} utilizan tamaños \textit{fijos} de cajas, porque asumimos que todas tienen un promedio de altura. \pause
+
+    \bigskip
+
+    Esto genera segmentos de tamaños iguales. Por ejemplo, usando una sola aplicación de la regla del trapecio para aproximar una integral, tenemos algo así\dots
+
+    \begin{center}
+        \includegraphics[width=0.5\textwidth]{awfulposition02.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Segmentos promedio}{Cuadratura de Gauss}
+    O bien, si partimos en un segmento de menor tamaño\dots
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{awfulposition01.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Segmentos de distinto tamaño}{Cuadratura de Gauss}
+    Por lo que escoger dónde poner los puntos es \textbf{sumamente importante}\dots
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{smartposition.pdf}
+    \end{center}
+
+    \bigskip
+
+    \dots lo que nos generará \textbf{segmentos de distintos tamaños}.
+    
+\end{frame}
+
+\begin{frame}{Casos de éxito de la regla del Trapecio}{Cuadratura de Gauss}
+
+    Sin embargo, es importante recalcar que existen algunos casos donde la \textbf{regla del trapecio} \alert{es exacta}.
+
+    Por ejemplo, en una línea constante\dots
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{constant1.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Casos de éxito de la regla del Trapecio}{Cuadratura de Gauss}
+    Incluso si usamos una sola aplicación de la \textbf{regla del trapecio}\dots
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{constanttrapezoidal.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Casos de éxito de la regla del Trapecio}{Cuadratura de Gauss}
+
+    Otro caso donde la regla de trapecio no falla es en una línea \textbf{recta con pendiente 1}\dots
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{yequalsx.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Casos de éxito de la regla del Trapecio}{Cuadratura de Gauss}
+    Incluso usando una sola aplicación:
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{yequalsxtrapezoidal.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{De segmentos promedio a segmentos de longitud variable}{Cuadratura de Gauss}
+    Tomando en cuenta estos casos, se encontraron las \alert{mejores posiciones} para aproximar \textbf{polinomios de \textit{ciertos} grados}, así:
+    
+    \bigskip
+    
+    $$I \approx c_0 f(x_0) + c_1 f(x_1) + \dots c_n f(x_n)$$
+
+    donde $c_i$ son \textit{ciertos} coeficientes desconocidos de los puntos $x_i$ \dots
+
+\end{frame}
+
+\begin{frame}{De segmentos promedio a segmentos de longitud variable}{Cuadratura de Gauss}
+Y se encontró que específicamente que con
+
+\begin{itemize}
+    \item $c_0 = c_1 = 1$
+    \item $x_0 = - \frac{1}{\sqrt{3}} \approx -0.5773503$
+    \item $x_1 = \frac{1}{\sqrt{3}} \approx 0.5773503$
+\end{itemize}
+
+podemos obtener la fórmula de \alert{Gauss-Legendre} de dos puntos:
+
+\begin{block}{Gauss-Legendre de 2 puntos}
+    \begin{equation}
+        \label{eq:gausslegendre2p}
+        I \approx f\left(\frac{-1}{\sqrt{3}}\right) + f\left(\frac{1}{\sqrt{3}}\right)
+    \end{equation}
+\end{block}
+
+que \alert{solo funciona si el límite de la integral es $[-1, 1]$}.
+
+\end{frame}
+
+\begin{frame}{Convirtiendo de un límite a otro}{Cuadratura de Gauss}
+
+¿Entonces de qué nos sirve si no siempre voy a querer integrar en el intervalo $[-1, 1]$? \pause
+
+\bigskip
+
+Podemos pensar que nuestro límite de integración dado por $b - a$ es una \alert{transformación lineal} de ese intervalo mágico.
+Por ello, podemos \textbf{transformarlo} usando la siguiente ecuación:
+    
+\begin{block}{Cambio de variable}
+    \begin{equation}
+        \label{eq:quadraturevarchange}
+        x = \frac{(b + a) + (b - a)x_d}{2}
+    \end{equation}
+\end{block} \pause
+
+Y si la derivamos, obtenemos el diferencial\dots
+
+\begin{exampleblock}{Diferencial del cambio de variable}
+    \begin{equation}
+        \label{eq:quadraturevarchangedx}
+        \dd{x} = \frac{b - a}{2}\dd{x_d}
+    \end{equation}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}[t]{Ejemplo: Gauss-Legendre de dos puntos}{Cuadratura de Gauss}
+    Al igual que en el ejercicio pasado, vamos a integrar la función:
+    
+    \bigskip
+
+    $$f(x) = 0.2 + 25x - 200 x^2 + 675 x^3 - 900 x^4 + 400x^5$$
+
+    \bigskip
+
+    de $a=0$ a $b = 0.8$ \pause
+
+    \bigskip
+
+    \begin{center}
+        {\Huge
+        STOP!}\\
+        Vamos paso por paso.
+    \end{center}
+\end{frame}
+
+\begin{frame}{Ejemplo: Gauss-Legendre de dos puntos}{Cuadratura de Gauss}
+    Habremos de reemplazar la $x$ en la función, por nuestra \textit{nueva $x$}. Entonces, primero hay que conseguir la \textit{nueva $x$} usando la ecuación \ref{eq:quadraturevarchange}:
+    \begin{align*}
+        x_{new} & = \frac{(b+a) + (b - a)x_d}{2} \\
+         & = \frac{(0.8 + 0) + (0.8 - 0)x_d}{2} \\
+         & = 0.4 + 0.4x_d \quad \diamond
+    \end{align*} \pause
+    Ahora simplemente reemplazamos $a,b$ en la ecuación \ref{eq:quadraturevarchangedx} (o bien, derivamos):
+    \begin{align*}
+        \dd{x_{new}} & = \frac{b - a}{2}\dd{x_d} \\
+        & = \frac{0.8 - 0}{2} \\
+        & = 0.4\dd{x_d} \quad \diamond
+    \end{align*}
+\end{frame}
+
+\begin{frame}{Ejemplo: Gauss-Legendre de dos puntos}{Cuadratura de Gauss}
+    Ahora reemplazamos nuestras nuevas $x_{new}$ y $\dd{x_{new}}$ en la integral que queremos obtener:
+    \begin{align*}
+        \int_0^{0.8} \big( & 0.2 + 25x - 200 x^2 + 675 x^3 - 900 x^4 + 400x^5 \big) \\
+        = \int_{-1}^1 & \big[ 0.2 + 25(0.4 + 0.4x_d) - 200(0.4 + 0.4x_d)^2 + 675 (0.4 + 0.4x_d)^3 \\
+        & -900(0.4 + 0.4x_d)^4 + 400(0.4 + 0.4x_d)^5\big]0.4\dd{x_d}
+    \end{align*} \pause
+    Y ahora, evaluamos en $-1 / \sqrt{3} = 0.516741$, y en $1 / \sqrt{3} = 1.305837$ usando la ecuación~\ref{eq:gausslegendre2p}:
+    $$I \approx 0.516741 + 1.305837 = 1.822578 \quad \blacksquare$$
+\end{frame}
+
 \section{Resumen de ecuaciones}
 
-\begin{frame}[allowframebreaks]{Resumen de ecuaciones}{Para no enloquecer}
+\begin{frame}[t, allowframebreaks]{Resumen de ecuaciones}{Para no enloquecer}
 
-Voy a integrar una función, así que tengo dos opciones: \contrastA{Trapecio} o \contrastB{Simpson 1/3}.
+Voy a integrar una función, así que tengo tres opciones: \contrastA{Trapecio}, \contrastB{Simpson 1/3} o \contrastC{Gauss-Legendre}.
 
 \begin{alertblock}{Si escogí Trapecio\dots}
     Si con una aplicación se arma:
     \begin{itemize}
+        \itemsep1ex
         \item Calculo con \textbf{Eq. \ref{eq:trapezoidal-single}}
         \item Saco el error con \textbf{Eq. \ref{eq:trapezoidal-single-error}}
     \end{itemize}
     Si tengo que aplicarla varias veces, entonces:
     \begin{itemize}
+        \itemsep1ex
         \item Calculo con \textbf{Eq. \ref{eq:trapezoidal-multi}}
         \item Saco el error total con \textbf{Eq. \ref{eq:trapezoidal-multi-error-exact}} o bien con \textbf{Eq. \ref{eq:trapezoidal-multi-error-approx}} $\star$
     \end{itemize}
@@ -440,11 +624,13 @@ Voy a integrar una función, así que tengo dos opciones: \contrastA{Trapecio} o
 \begin{block}{Si escogí Simpson 1/3\dots}
     Si con una aplicación se arma:
     \begin{itemize}
+        \itemsep1ex
         \item Calculo con \textbf{Eq. \ref{eq:simpson13-single}}
         \item Saco el error con \textbf{Eq. \ref{eq:simpson13-single-error}}
     \end{itemize}
     Si tengo que aplicarla varias veces, entonces:
     \begin{itemize}
+        \itemsep1ex
         \item Calculo con \textbf{Eq. \ref{eq:simpson13-multi}}
         \item Saco el error aproximado con \textbf{Eq. \ref{eq:simpson13-multi-error}} $\star$
     \end{itemize}
@@ -454,6 +640,14 @@ Voy a integrar una función, así que tengo dos opciones: \contrastA{Trapecio} o
 
 $\star$: En estos casos, podemos obtener la $i$-ésima derivada promedio usando la \textbf{Eq.~\ref{eq:average-second-derivative}} con la $i$ necesaria: $i=2$ si es segunda derivada, $i=4$ si es cuarta derivada\dots
 
+\begin{exampleblock}{Si escogí Gauss-Legendre\dots}
+    \begin{itemize}
+        \itemsep1ex
+        \item Convierto al intervalo $[-1, 1]$ usando las \textbf{Eqs.~\ref{eq:quadraturevarchange} y \ref{eq:quadraturevarchangedx}}
+        \item Reviso la \alert{tabla de coeficientes y argumentos}\footnote{\url{https://en.wikipedia.org/wiki/Gaussian\_quadrature}} y evalúo dependiendo mis necesidades para calcular la integral.
+        \item Calculo el error usando los datos de la tabla.
+    \end{itemize}
+\end{exampleblock}
 \end{frame}
 
 
